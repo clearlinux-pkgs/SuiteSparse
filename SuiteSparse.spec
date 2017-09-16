@@ -4,7 +4,7 @@
 #
 Name     : SuiteSparse
 Version  : 4.5.5
-Release  : 2
+Release  : 3
 URL      : http://faculty.cse.tamu.edu/davis/SuiteSparse/SuiteSparse-4.5.5.tar.gz
 Source0  : http://faculty.cse.tamu.edu/davis/SuiteSparse/SuiteSparse-4.5.5.tar.gz
 Summary  : No detailed summary available
@@ -16,6 +16,7 @@ BuildRequires : cmake
 BuildRequires : openblas
 BuildRequires : tbb-dev
 Patch1: build.patch
+Patch2: ivdep.patch
 
 %description
 This file contains some test graphs and meshes
@@ -56,6 +57,7 @@ lib components for the SuiteSparse package.
 %prep
 %setup -q -n SuiteSparse
 %patch1 -p1
+%patch2 -p1
 pushd ..
 cp -a SuiteSparse buildavx2
 popd
@@ -65,7 +67,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1505595087
+export SOURCE_DATE_EPOCH=1505595422
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
@@ -73,10 +75,10 @@ export CFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-c
 export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-common -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
 export FFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-common -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
 export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-common -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
-make V=1  %{?_smp_mflags} BLAS=-lopenblas LAPACK=-lopenblas library
+make V=1  %{?_smp_mflags} BLAS=-lopenblas LAPACK=-lopenblas library metis
 
 %install
-export SOURCE_DATE_EPOCH=1505595087
+export SOURCE_DATE_EPOCH=1505595422
 rm -rf %{buildroot}
 pushd ../buildavx2/
 %make_install BLAS=-lopenblas LAPACK=-lopenblas INSTALL=%{buildroot}/usr  INSTALL_LIB=%{buildroot}/usr/lib64 || :

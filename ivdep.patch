@@ -1,0 +1,406 @@
+diff -purN SuiteSparse.org/UMFPACK/Source/umf_analyze.c SuiteSparse/UMFPACK/Source/umf_analyze.c
+--- SuiteSparse.org/UMFPACK/Source/umf_analyze.c	2016-03-30 21:43:07.000000000 +0000
++++ SuiteSparse/UMFPACK/Source/umf_analyze.c	2017-09-16 20:52:13.203367905 +0000
+@@ -90,7 +90,7 @@ GLOBAL Int UMF_analyze
+     /* ==== initializations ================================================= */
+     /* ====================================================================== */
+ 
+-#pragma ivdep
++#pragma GCC ivdep
+     for (j = 0 ; j < n_col ; j++)
+     {
+ 	Link [j] = EMPTY ;
+diff -purN SuiteSparse.org/UMFPACK/Source/umf_assemble.c SuiteSparse/UMFPACK/Source/umf_assemble.c
+--- SuiteSparse.org/UMFPACK/Source/umf_assemble.c	2016-03-30 21:43:15.000000000 +0000
++++ SuiteSparse/UMFPACK/Source/umf_assemble.c	2017-09-16 20:52:13.204367905 +0000
+@@ -112,7 +112,7 @@ PRIVATE void row_assemble
+ 		/* no columns assembled out this Lson yet */
+ 		/* -------------------------------------------------- */
+ 
+-#pragma ivdep
++#pragma GCC ivdep
+ 		for (j = 0 ; j < ncols ; j++)
+ 		{
+ 		    col = Cols [j] ;
+@@ -132,7 +132,7 @@ PRIVATE void row_assemble
+ 		/* some columns have been assembled out of this Lson */
+ 		/* -------------------------------------------------- */
+ 
+-#pragma ivdep
++#pragma GCC ivdep
+ 		for (j = 0 ; j < ncols ; j++)
+ 		{
+ 		    col = Cols [j] ;
+@@ -263,7 +263,7 @@ PRIVATE void col_assemble
+ 		/* no rows assembled out of this Uson yet */
+ 		/* -------------------------------------------------- */
+ 
+-#pragma ivdep
++#pragma GCC ivdep
+ 		for (i = 0 ; i < nrows ; i++)
+ 		{
+ 		    row = Rows [i] ;
+@@ -279,7 +279,7 @@ PRIVATE void col_assemble
+ 		/* some rows have been assembled out of this Uson */
+ 		/* -------------------------------------------------- */
+ 
+-#pragma ivdep
++#pragma GCC ivdep
+ 		for (i = 0 ; i < nrows ; i++)
+ 		{
+ 		    row = Rows [i] ;
+@@ -639,7 +639,7 @@ GLOBAL void UMF_assemble_fixq
+ 
+ 		/* compute the compressed column offset vector*/
+ 		/* [ use Wm [0..nrows-1] for offsets */
+-#pragma ivdep
++#pragma GCC ivdep
+ 		for (i = 0 ; i < nrows ; i++)
+ 		{
+ 		    row = Rows [i] ;
+@@ -660,7 +660,7 @@ GLOBAL void UMF_assemble_fixq
+ 			Col_degree [col] -= nrowsleft ;
+ #endif
+ 			Fcol = Fcblock + Fcpos [col] ;
+-#pragma ivdep
++#pragma GCC ivdep
+ 			for (i = 0 ; i < nrows ; i++)
+ 			{
+ 			    /* Fcol [Wm [i]] += S [i] ; */
+@@ -686,7 +686,7 @@ GLOBAL void UMF_assemble_fixq
+ 			    Col_degree [col] -= nrowsleft ;
+ #endif
+ 			    Fcol = Fcblock + Fcpos [col] ;
+-#pragma ivdep
++#pragma GCC ivdep
+ 			    for (i = 0 ; i < nrows ; i++)
+ 			    {
+ 				/* Fcol [Wm [i]] += S [i] ; */
+@@ -733,7 +733,7 @@ GLOBAL void UMF_assemble_fixq
+ 			Col_degree [col] -= nrowsleft ;
+ #endif
+ 			Fcol = Fcblock + Fcpos [col] ;
+-#pragma ivdep
++#pragma GCC ivdep
+ 			for (i = 0 ; i < nrowsleft ; i++)
+ 			{
+ 			    /* Fcol [Wm [i]] += S [Woo [i]] ; */
+@@ -758,7 +758,7 @@ GLOBAL void UMF_assemble_fixq
+ 			    Col_degree [col] -= nrowsleft ;
+ #endif
+ 			    Fcol = Fcblock + Fcpos [col] ;
+-#pragma ivdep
++#pragma GCC ivdep
+ 			    for (i = 0 ; i < nrowsleft ; i++)
+ 			    {
+ 				/* Fcol [Wm [i]] += S [Woo [i]] ; */
+@@ -817,7 +817,7 @@ GLOBAL void UMF_assemble_fixq
+ 
+ 			/* compute the compressed column offset vector */
+ 			/* [ use Wm [0..nrows-1] for offsets */
+-#pragma ivdep
++#pragma GCC ivdep
+ 			for (i = 0 ; i < nrows ; i++)
+ 			{
+ 			    row = Rows [i] ;
+@@ -835,7 +835,7 @@ GLOBAL void UMF_assemble_fixq
+ 				Col_degree [col] -= nrowsleft ;
+ #endif
+ 				Fcol = Fcblock + Fcpos [col] ;
+-#pragma ivdep
++#pragma GCC ivdep
+ 				for (i = 0 ; i < nrows ; i++)
+ 				{
+ 				    /* Fcol [Wm [i]] += S [i] ; */
+@@ -881,7 +881,7 @@ GLOBAL void UMF_assemble_fixq
+ 				Col_degree [col] -= nrowsleft ;
+ #endif
+ 				Fcol = Fcblock + Fcpos [col] ;
+-#pragma ivdep
++#pragma GCC ivdep
+ 				for (i = 0 ; i < nrowsleft ; i++)
+ 				{
+ 				    /* Fcol [Wm [i]] += S [Woo [i]] ; */
+@@ -965,7 +965,7 @@ GLOBAL void UMF_assemble_fixq
+ 			    Col_degree [col] -= nrows_to_assemble ;
+ #endif
+ 			    Fcol = Fcblock + Fcpos [col] ;
+-#pragma ivdep
++#pragma GCC ivdep
+ 			    for (i = 0 ; i < nrows_to_assemble ; i++)
+ 			    {
+ 				/* Fcol [Wm [i]] += S [Woo [i]] ; */
+@@ -992,7 +992,7 @@ GLOBAL void UMF_assemble_fixq
+ 				Col_degree [col] -= nrows_to_assemble ;
+ #endif
+ 				Fcol = Fcblock + Fcpos [col] ;
+-#pragma ivdep
++#pragma GCC ivdep
+ 				for (i = 0 ; i < nrows_to_assemble ; i++)
+ 				{
+ 				    /* Fcol [Wm [i]] += S [Woo [i]] ; */
+diff -purN SuiteSparse.org/UMFPACK/Source/umf_blas3_update.c SuiteSparse/UMFPACK/Source/umf_blas3_update.c
+--- SuiteSparse.org/UMFPACK/Source/umf_blas3_update.c	2016-03-30 21:43:19.000000000 +0000
++++ SuiteSparse/UMFPACK/Source/umf_blas3_update.c	2017-09-16 20:52:13.204367905 +0000
+@@ -77,7 +77,7 @@ GLOBAL void UMF_blas3_update
+ 		    Entry *c_ij, *l_is ;
+ 		    c_ij = & C [j*d] ;
+ 		    l_is = & L [0] ;
+-#pragma ivdep
++#pragma GCC ivdep
+ 		    for (i = 0 ; i < m ; i++)
+ 		    {
+ 			/* C [i+j*d]-= L [i] * U [j] */
+@@ -113,7 +113,7 @@ GLOBAL void UMF_blas3_update
+ 			Entry *u_ij, *u_sj ;
+ 			u_ij = & U [i*dc] ;
+ 			u_sj = & U [s*dc] ;
+-#pragma ivdep
++#pragma GCC ivdep
+ 			for (j = 0 ; j < n ; j++)
+ 			{
+ 			    /* U [i*dc+j] -= LU [i+s*nb] * U [s*dc+j] ; */
+@@ -148,7 +148,7 @@ GLOBAL void UMF_blas3_update
+ 			Entry *c_ij, *l_is ;
+ 			c_ij = & C [j*d] ;
+ 			l_is = & L [s*d] ;
+-#pragma ivdep
++#pragma GCC ivdep
+ 			for (i = 0 ; i < m ; i++)
+ 			{
+ 			    /* C [i+j*d]-= L [i+s*d] * U [s*dc+j] */
+diff -purN SuiteSparse.org/UMFPACK/Source/umf_create_element.c SuiteSparse/UMFPACK/Source/umf_create_element.c
+--- SuiteSparse.org/UMFPACK/Source/umf_create_element.c	2016-03-30 21:43:35.000000000 +0000
++++ SuiteSparse/UMFPACK/Source/umf_create_element.c	2017-09-16 20:52:13.208367905 +0000
+@@ -27,7 +27,7 @@
+ PRIVATE void copy_column (Int len, Entry *X, Entry *Y)
+ {
+     Int i ;
+-#pragma ivdep
++#pragma GCC ivdep
+     for (i = 0 ; i < len ; i++)
+     {
+ 	Y [i] = X [i] ;
+@@ -96,7 +96,7 @@ GLOBAL Int UMF_create_element
+     if (!Symbolic->fixQ)
+     {
+ 	/* but only if the column ordering is not fixed */
+-#pragma ivdep
++#pragma GCC ivdep
+ 	for (j = 0 ; j < fncols ; j++)
+ 	{
+ 	    /* add the current frontal matrix to the degree */
+@@ -109,7 +109,7 @@ GLOBAL Int UMF_create_element
+     /* add the current frontal matrix to the degrees of each row */
+     /* ---------------------------------------------------------------------- */
+ 
+-#pragma ivdep
++#pragma GCC ivdep
+     for (i = 0 ; i < fnrows ; i++)
+     {
+ 	/* add the current frontal matrix to the degree */
+@@ -133,7 +133,7 @@ GLOBAL Int UMF_create_element
+ 	    /* guard against integer overflow.  This is very rare */
+ 	    DEBUG1 (("Integer overflow, cdeg\n")) ;
+ 	    Work->cdeg0 = 1 ;
+-#pragma ivdep
++#pragma GCC ivdep
+ 	    for (e = 1 ; e <= Work->nel ; e++)
+ 	    {
+ 		if (E [e])
+@@ -154,7 +154,7 @@ GLOBAL Int UMF_create_element
+ 	    /* guard against integer overflow.  This is very rare */
+ 	    DEBUG1 (("Integer overflow, rdeg\n")) ;
+ 	    Work->rdeg0 = 1 ;
+-#pragma ivdep
++#pragma GCC ivdep
+ 	    for (e = 1 ; e <= Work->nel ; e++)
+ 	    {
+ 		if (E [e])
+@@ -172,7 +172,7 @@ GLOBAL Int UMF_create_element
+ 
+     if (!Work->pivrow_in_front)
+     {
+-#pragma ivdep
++#pragma GCC ivdep
+ 	for (j = 0 ; j < fncols ; j++)
+ 	{
+ 	    Fcpos [Fcols [j]] = EMPTY ;
+@@ -181,7 +181,7 @@ GLOBAL Int UMF_create_element
+ 
+     if (!Work->pivcol_in_front)
+     {
+-#pragma ivdep
++#pragma GCC ivdep
+ 	for (i = 0 ; i < fnrows ; i++)
+ 	{
+ 	    Frpos [Frows [i]] = EMPTY ;
+@@ -283,12 +283,12 @@ GLOBAL Int UMF_create_element
+     /* copy frontal matrix into the new element */
+     /* ---------------------------------------------------------------------- */
+ 
+-#pragma ivdep
++#pragma GCC ivdep
+     for (i = 0 ; i < fnrows ; i++)
+     {
+ 	Rows [i] = Frows [i] ;
+     }
+-#pragma ivdep
++#pragma GCC ivdep
+     for (i = 0 ; i < fncols ; i++)
+     {
+ 	Cols [i] = Fcols [i] ;
+diff -purN SuiteSparse.org/UMFPACK/Source/umf_extend_front.c SuiteSparse/UMFPACK/Source/umf_extend_front.c
+--- SuiteSparse.org/UMFPACK/Source/umf_extend_front.c	2016-03-30 21:43:42.000000000 +0000
++++ SuiteSparse/UMFPACK/Source/umf_extend_front.c	2017-09-16 20:52:13.209367905 +0000
+@@ -31,7 +31,7 @@ PRIVATE void zero_front (
+ 	/* zero the new rows in the contribution block: */
+ 	F = Fj ;
+ 	Fj += fnr_curr ;
+-#pragma ivdep
++#pragma GCC ivdep
+ 	for (i = fnrows ; i < fnrows_extended ; i++)
+ 	{
+ 	    /* CLEAR (Fcblock [i + j*fnr_curr]) ; */
+@@ -45,7 +45,7 @@ PRIVATE void zero_front (
+ 	/* zero the new columns in the contribution block: */
+ 	F = Fj ;
+ 	Fj += fnr_curr ;
+-#pragma ivdep
++#pragma GCC ivdep
+ 	for (i = 0 ; i < fnrows_extended ; i++)
+ 	{
+ 	    /* CLEAR (Fcblock [i + j*fnr_curr]) ; */
+@@ -59,7 +59,7 @@ PRIVATE void zero_front (
+ 	/* zero the new rows in L block: */
+ 	F = Fj ;
+ 	Fj += fnr_curr ;
+-#pragma ivdep
++#pragma GCC ivdep
+ 	for (i = fnrows ; i < fnrows_extended ; i++)
+ 	{
+ 	    /* CLEAR (Flblock [i + j*fnr_curr]) ; */
+@@ -73,7 +73,7 @@ PRIVATE void zero_front (
+ 	/* zero the new columns in U block: */
+ 	F = Fi ;
+ 	Fi += fnc_curr ;
+-#pragma ivdep
++#pragma GCC ivdep
+ 	for (j = fncols ; j < fncols_extended ; j++)
+ 	{
+ 	    /* CLEAR (Fublock [i*fnc_curr + j]) ; */
+diff -purN SuiteSparse.org/UMFPACK/Source/umf_local_search.c SuiteSparse/UMFPACK/Source/umf_local_search.c
+--- SuiteSparse.org/UMFPACK/Source/umf_local_search.c	2016-03-30 21:45:06.000000000 +0000
++++ SuiteSparse/UMFPACK/Source/umf_local_search.c	2017-09-16 20:52:13.214367905 +0000
+@@ -484,7 +484,7 @@ GLOBAL Int UMF_local_search
+ 		for (j = 0 ; j < fnpiv ; j++)
+ 		{
+ 		    Entry Fuj = Flu [j] ;
+-#pragma ivdep
++#pragma GCC ivdep
+ 		    for (i = j+1 ; i < fnpiv ; i++)
+ 		    {
+ 			/* Flu [i] -= Flublock [i + j*nb] * Flu [j] ; */
+@@ -518,7 +518,7 @@ GLOBAL Int UMF_local_search
+ 	    Fuj = Flu [j] ;
+ 	    if (IS_NONZERO (Fuj))
+ 	    {
+-#pragma ivdep
++#pragma GCC ivdep
+ 		for (i = 0 ; i < fnrows ; i++)
+ 		{
+ 		    /* Wy [i] -= Flblock [i+j*fnr_curr] * Fuj ; */
+diff -purN SuiteSparse.org/UMFPACK/Source/umfpack_get_numeric.c SuiteSparse/UMFPACK/Source/umfpack_get_numeric.c
+--- SuiteSparse.org/UMFPACK/Source/umfpack_get_numeric.c	2016-03-30 21:50:27.000000000 +0000
++++ SuiteSparse/UMFPACK/Source/umfpack_get_numeric.c	2017-09-16 20:52:13.233367904 +0000
+@@ -363,13 +363,13 @@ PRIVATE void get_L
+     /* count the nonzeros in each row of L */
+     /* ---------------------------------------------------------------------- */
+ 
+-#pragma ivdep
++#pragma GCC ivdep
+     for (row = 0 ; row < n_inner ; row++)
+     {
+ 	/* include the diagonal entry in the row counts */
+ 	Wi [row] = 1 ;
+     }
+-#pragma ivdep
++#pragma GCC ivdep
+     for (row = n_inner ; row < n_row ; row++)
+     {
+ 	Wi [row] = 0 ;
+diff -purN SuiteSparse.org/UMFPACK/Source/umf_scale_column.c SuiteSparse/UMFPACK/Source/umf_scale_column.c
+--- SuiteSparse.org/UMFPACK/Source/umf_scale_column.c	2016-03-30 21:46:16.000000000 +0000
++++ SuiteSparse/UMFPACK/Source/umf_scale_column.c	2017-09-16 20:52:13.247367904 +0000
+@@ -30,7 +30,7 @@
+ PRIVATE void shift_pivot_row (Entry *Fd, Entry *Fs, Entry *Fe, Int len, Int d)
+ {
+     Int j ;
+-#pragma ivdep
++#pragma GCC ivdep
+     for (j = 0 ; j < len ; j++)
+     {
+ 	Fd [j]   = Fs [j*d] ;
+@@ -157,7 +157,7 @@ GLOBAL void UMF_scale_column
+ 	    Entry *Fs, *Fe ;
+ 	    Fs = Fcblock + fspos ;
+ 	    Fe = Fcblock + fncols * fnr_curr ;
+-#pragma ivdep
++#pragma GCC ivdep
+ 	    for (i = 0 ; i < fnrows ; i++)
+ 	    {
+ 		Fs [i] = Fe [i] ;
+@@ -172,7 +172,7 @@ GLOBAL void UMF_scale_column
+ 	    Entry *Fs, *Fe ;
+ 	    Fs = Fublock + fs ;
+ 	    Fe = Fublock + fncols ;
+-#pragma ivdep
++#pragma GCC ivdep
+ 	    for (i = 0 ; i < fnpiv ; i++)
+ 	    {
+ 		Fs [i * fnc_curr] = Fe [i * fnc_curr] ;
+@@ -232,7 +232,7 @@ GLOBAL void UMF_scale_column
+ 	    Entry *Fd, *Fs ;
+ 	    Fd = Fublock + fnpiv * fnc_curr ;
+ 	    Fs = Fcblock + fspos ;
+-#pragma ivdep
++#pragma GCC ivdep
+ 	    for (j = 0 ; j < fncols ; j++)
+ 	    {
+ 		Fd [j] = Fs [j * fnr_curr] ;
+@@ -246,7 +246,7 @@ GLOBAL void UMF_scale_column
+ 	    Entry *Fd, *Fs ;
+ 	    Fd = Flublock + fnpiv ;
+ 	    Fs = Flblock  + fspos ;
+-#pragma ivdep
++#pragma GCC ivdep
+ 	    for (j = 0 ; j <= fnpiv ; j++)
+ 	    {
+ 		Fd [j * nb] = Fs [j * fnr_curr] ;
+@@ -258,7 +258,7 @@ GLOBAL void UMF_scale_column
+ 	    Entry *Fd, *Fs ;
+ 	    Fd = Flublock + fnpiv ;
+ 	    Fs = Flblock  + fspos ;
+-#pragma ivdep
++#pragma GCC ivdep
+ 	    for (j = 0 ; j < fnpiv ; j++)
+ 	    {
+ 		ASSERT (IS_ZERO (Fs [j * fnr_curr])) ;
+@@ -301,7 +301,7 @@ GLOBAL void UMF_scale_column
+ 	    Fd = Flublock + fnpiv ;
+ 	    Fs = Flblock  + fspos ;
+ 	    Fe = Flblock  + fnrows ;
+-#pragma ivdep
++#pragma GCC ivdep
+ 	    for (j = 0 ; j <= fnpiv ; j++)
+ 	    {
+ 		Fd [j * nb]       = Fs [j * fnr_curr] ;
+@@ -315,7 +315,7 @@ GLOBAL void UMF_scale_column
+ 	    Fd = Flublock + fnpiv ;
+ 	    Fs = Flblock  + fspos ;
+ 	    Fe = Flblock  + fnrows ;
+-#pragma ivdep
++#pragma GCC ivdep
+ 	    for (j = 0 ; j < fnpiv ; j++)
+ 	    {
+ 		ASSERT (IS_ZERO (Fs [j * fnr_curr])) ;

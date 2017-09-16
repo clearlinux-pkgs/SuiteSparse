@@ -1,1 +1,1 @@
-BLAS=-lopenblas LAPACK=-lopenblas library
+BLAS=-lopenblas LAPACK=-lopenblas library metis
