@@ -4,7 +4,7 @@
 #
 Name     : SuiteSparse
 Version  : 4.5.5
-Release  : 1
+Release  : 2
 URL      : http://faculty.cse.tamu.edu/davis/SuiteSparse/SuiteSparse-4.5.5.tar.gz
 Source0  : http://faculty.cse.tamu.edu/davis/SuiteSparse/SuiteSparse-4.5.5.tar.gz
 Summary  : No detailed summary available
@@ -65,7 +65,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1505594789
+export SOURCE_DATE_EPOCH=1505595087
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
@@ -76,12 +76,15 @@ export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -f
 make V=1  %{?_smp_mflags} BLAS=-lopenblas LAPACK=-lopenblas library
 
 %install
-export SOURCE_DATE_EPOCH=1505594789
+export SOURCE_DATE_EPOCH=1505595087
 rm -rf %{buildroot}
 pushd ../buildavx2/
 %make_install BLAS=-lopenblas LAPACK=-lopenblas INSTALL=%{buildroot}/usr  INSTALL_LIB=%{buildroot}/usr/lib64 || :
 popd
 %make_install BLAS=-lopenblas LAPACK=-lopenblas INSTALL=%{buildroot}/usr  INSTALL_LIB=%{buildroot}/usr/lib64 || :
+## make_install_append content
+cp -a include %{buildroot}/usr
+## make_install_append end
 
 %files
 %defattr(-,root,root,-)
@@ -100,6 +103,8 @@ popd
 %files dev
 %defattr(-,root,root,-)
 /usr/include/*.h
+/usr/include/*.hpp
+/usr/include/.gitignore
 /usr/lib64/libamd.so
 /usr/lib64/libbtf.so
 /usr/lib64/libcamd.so
