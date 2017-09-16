@@ -1,11 +1,11 @@
 cp -a include %{buildroot}/usr
-mkdir -p  %{buildroot}/usr/bin/
-mv %{buildroot}/builddir/build/BUILD/buildavx2/bin/* %{buildroot}/usr/bin/
-mv %{buildroot}/builddir/build/BUILD/buildavx2/lib/* %{buildroot}/usr/lib64/
-mv %{buildroot}/builddir/build/BUILD/buildavx2/include/* %{buildroot}/usr/include/
+#mkdir -p  %{buildroot}/usr/bin/
+#mv %{buildroot}/builddir/build/BUILD/buildavx2/bin/* %{buildroot}/usr/bin/
+#mv %{buildroot}/builddir/build/BUILD/buildavx2/lib/* %{buildroot}/usr/lib64/
+#mv %{buildroot}/builddir/build/BUILD/buildavx2/include/* %{buildroot}/usr/include/
 
-rmdir  %{buildroot}/builddir/build/BUILD/buildavx2/*
-rmdir  %{buildroot}/builddir/build/BUILD/*
-rmdir  %{buildroot}/builddir/build/*
-rmdir  %{buildroot}/builddir/*
-rmdir  %{buildroot}/builddir
+#rmdir  %{buildroot}/builddir/build/BUILD/buildavx2/*
+#rmdir  %{buildroot}/builddir/build/BUILD/*
+#rmdir  %{buildroot}/builddir/build/*
+#rmdir  %{buildroot}/builddir/*
+#rmdir  %{buildroot}/builddir
