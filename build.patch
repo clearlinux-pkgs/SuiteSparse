@@ -1,0 +1,22 @@
+--- SuiteSparse/Makefile~	2017-04-01 00:30:39.000000000 +0000
++++ SuiteSparse/Makefile	2017-09-16 20:34:18.047199834 +0000
+@@ -34,7 +34,7 @@
+ 
+ # install all packages in /usr/local/lib and /usr/local/include
+ # (note that CSparse is not installed; CXSparse is installed instead)
+-install: metisinstall
++install: 
+ 	( cd SuiteSparse_config && $(MAKE) install )
+ 	( cd AMD && $(MAKE) install )
+ 	( cd BTF && $(MAKE) install )
+--- SuiteSparse/SuiteSparse_config/SuiteSparse_config.mk~	2017-04-01 00:30:39.000000000 +0000
++++ SuiteSparse/SuiteSparse_config/SuiteSparse_config.mk	2017-09-16 20:43:28.080248215 +0000
+@@ -339,7 +339,7 @@
+ 
+     ifeq ($(UNAME),Linux)
+         # add the realtime library, librt, and SuiteSparse/lib
+-        LDLIBS += -lrt -Wl,-rpath=$(INSTALL_LIB)
++        LDLIBS += -lrt
+     endif
+ 
+     #---------------------------------------------------------------------------
