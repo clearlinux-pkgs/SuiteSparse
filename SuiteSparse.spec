@@ -1,10 +1,10 @@
 #
 #
 Name     : SuiteSparse
-Version  : 4.5.6
+Version  : 5.1.0
 Release  : 6
-URL      : http://faculty.cse.tamu.edu/davis/SuiteSparse/SuiteSparse-4.5.6.tar.gz
-Source0  : http://faculty.cse.tamu.edu/davis/SuiteSparse/SuiteSparse-4.5.6.tar.gz
+URL      : http://faculty.cse.tamu.edu/davis/SuiteSparse/SuiteSparse-5.1.0.tar.gz
+Source0  : http://faculty.cse.tamu.edu/davis/SuiteSparse/SuiteSparse-5.1.0.tar.gz
 Summary  : No detailed summary available
 Group    : Development/Tools
 License  : Apache-2.0 BSD-3-Clause GPL-2.0 LGPL-2.1
@@ -119,30 +119,30 @@ mkdir -p  %{buildroot}/usr/bin/
 
 %files data
 %defattr(-,root,root,-)
-/usr/share/doc/suitesparse-4.5.6/AMD_README.txt
-/usr/share/doc/suitesparse-4.5.6/AMD_UserGuide.pdf
-/usr/share/doc/suitesparse-4.5.6/BTF_README.txt
-/usr/share/doc/suitesparse-4.5.6/CAMD_README.txt
-/usr/share/doc/suitesparse-4.5.6/CAMD_UserGuide.pdf
-/usr/share/doc/suitesparse-4.5.6/CCOLAMD_README.txt
-/usr/share/doc/suitesparse-4.5.6/CHOLMOD_README.txt
-/usr/share/doc/suitesparse-4.5.6/CHOLMOD_UserGuide.pdf
-/usr/share/doc/suitesparse-4.5.6/COLAMD_README.txt
-/usr/share/doc/suitesparse-4.5.6/CXSPARSE_README.txt
-/usr/share/doc/suitesparse-4.5.6/KLU_README.txt
-/usr/share/doc/suitesparse-4.5.6/KLU_UserGuide.pdf
-/usr/share/doc/suitesparse-4.5.6/LDL_README.txt
-/usr/share/doc/suitesparse-4.5.6/METIS_README.txt
-/usr/share/doc/suitesparse-4.5.6/METIS_manual.pdf
-/usr/share/doc/suitesparse-4.5.6/RBIO_README.txt
-/usr/share/doc/suitesparse-4.5.6/SPQR_README.txt
-/usr/share/doc/suitesparse-4.5.6/SUITESPARSECONFIG_README.txt
-/usr/share/doc/suitesparse-4.5.6/SuiteSparse_README.txt
-/usr/share/doc/suitesparse-4.5.6/UMFPACK_QuickStart.pdf
-/usr/share/doc/suitesparse-4.5.6/UMFPACK_README.txt
-/usr/share/doc/suitesparse-4.5.6/UMFPACK_UserGuide.pdf
-/usr/share/doc/suitesparse-4.5.6/ldl_userguide.pdf
-/usr/share/doc/suitesparse-4.5.6/spqr_user_guide.pdf
+/usr/share/doc/suitesparse-5.1.0/AMD_README.txt
+/usr/share/doc/suitesparse-5.1.0/AMD_UserGuide.pdf
+/usr/share/doc/suitesparse-5.1.0/BTF_README.txt
+/usr/share/doc/suitesparse-5.1.0/CAMD_README.txt
+/usr/share/doc/suitesparse-5.1.0/CAMD_UserGuide.pdf
+/usr/share/doc/suitesparse-5.1.0/CCOLAMD_README.txt
+/usr/share/doc/suitesparse-5.1.0/CHOLMOD_README.txt
+/usr/share/doc/suitesparse-5.1.0/CHOLMOD_UserGuide.pdf
+/usr/share/doc/suitesparse-5.1.0/COLAMD_README.txt
+/usr/share/doc/suitesparse-5.1.0/CXSPARSE_README.txt
+/usr/share/doc/suitesparse-5.1.0/KLU_README.txt
+/usr/share/doc/suitesparse-5.1.0/KLU_UserGuide.pdf
+/usr/share/doc/suitesparse-5.1.0/LDL_README.txt
+/usr/share/doc/suitesparse-5.1.0/METIS_README.txt
+/usr/share/doc/suitesparse-5.1.0/METIS_manual.pdf
+/usr/share/doc/suitesparse-5.1.0/RBIO_README.txt
+/usr/share/doc/suitesparse-5.1.0/SPQR_README.txt
+/usr/share/doc/suitesparse-5.1.0/SUITESPARSECONFIG_README.txt
+/usr/share/doc/suitesparse-5.1.0/SuiteSparse_README.txt
+/usr/share/doc/suitesparse-5.1.0/UMFPACK_QuickStart.pdf
+/usr/share/doc/suitesparse-5.1.0/UMFPACK_README.txt
+/usr/share/doc/suitesparse-5.1.0/UMFPACK_UserGuide.pdf
+/usr/share/doc/suitesparse-5.1.0/ldl_userguide.pdf
+/usr/share/doc/suitesparse-5.1.0/spqr_user_guide.pdf
 
 %files dev
 %defattr(-,root,root,-)
@@ -179,7 +179,7 @@ mkdir -p  %{buildroot}/usr/bin/
 /usr/lib64/libcolamd.so.2
 /usr/lib64/libcolamd.so.2.9.6
 /usr/lib64/libcxsparse.so.3
-/usr/lib64/libcxsparse.so.3.1.9
+/usr/lib64/libcxsparse.so.3*
 /usr/lib64/libklu.so.1
 /usr/lib64/libklu.so.1.3.8
 /usr/lib64/libldl.so.2
@@ -188,8 +188,8 @@ mkdir -p  %{buildroot}/usr/bin/
 /usr/lib64/librbio.so.2.2.6
 /usr/lib64/libspqr.so.2
 /usr/lib64/libspqr.so.2.0.8
-/usr/lib64/libsuitesparseconfig.so.4
-/usr/lib64/libsuitesparseconfig.so.4.5.6
+/usr/lib64/libsuitesparseconfig.so.5
+/usr/lib64/libsuitesparseconfig.so.5.1.0
 /usr/lib64/libumfpack.so.5
 /usr/lib64/libumfpack.so.5.7.6
 /usr/lib64/haswell/
