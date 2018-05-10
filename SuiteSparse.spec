@@ -2,7 +2,7 @@
 #
 Name     : SuiteSparse
 Version  : 5.1.0
-Release  : 7
+Release  : 8
 URL      : http://faculty.cse.tamu.edu/davis/SuiteSparse/SuiteSparse-5.1.0.tar.gz
 Source0  : http://faculty.cse.tamu.edu/davis/SuiteSparse/SuiteSparse-5.1.0.tar.gz
 Summary  : No detailed summary available
