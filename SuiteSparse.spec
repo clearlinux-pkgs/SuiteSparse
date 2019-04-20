@@ -2,7 +2,7 @@
 #
 Name     : SuiteSparse
 Version  : 5.1.0
-Release  : 9
+Release  : 10
 URL      : http://faculty.cse.tamu.edu/davis/SuiteSparse/SuiteSparse-5.1.0.tar.gz
 Source0  : http://faculty.cse.tamu.edu/davis/SuiteSparse/SuiteSparse-5.1.0.tar.gz
 Summary  : No detailed summary available
@@ -146,9 +146,71 @@ mkdir -p  %{buildroot}/usr/bin/
 
 %files dev
 %defattr(-,root,root,-)
-/usr/include/*.h
-/usr/include/*.hpp
-/usr/include/.gitignore
+/usr/include/RBio.h
+/usr/include/SuiteSparseQR.hpp
+/usr/include/SuiteSparseQR_C.h
+/usr/include/SuiteSparseQR_definitions.h
+/usr/include/SuiteSparse_config.h
+/usr/include/amd.h
+/usr/include/btf.h
+/usr/include/camd.h
+/usr/include/ccolamd.h
+/usr/include/cholmod.h
+/usr/include/cholmod_blas.h
+/usr/include/cholmod_camd.h
+/usr/include/cholmod_check.h
+/usr/include/cholmod_cholesky.h
+/usr/include/cholmod_complexity.h
+/usr/include/cholmod_config.h
+/usr/include/cholmod_core.h
+/usr/include/cholmod_function.h
+/usr/include/cholmod_gpu.h
+/usr/include/cholmod_gpu_kernels.h
+/usr/include/cholmod_io64.h
+/usr/include/cholmod_matrixops.h
+/usr/include/cholmod_modify.h
+/usr/include/cholmod_partition.h
+/usr/include/cholmod_supernodal.h
+/usr/include/cholmod_template.h
+/usr/include/colamd.h
+/usr/include/cs.h
+/usr/include/klu.h
+/usr/include/ldl.h
+/usr/include/metis.h
+/usr/include/spqr.hpp
+/usr/include/umfpack.h
+/usr/include/umfpack_col_to_triplet.h
+/usr/include/umfpack_defaults.h
+/usr/include/umfpack_free_numeric.h
+/usr/include/umfpack_free_symbolic.h
+/usr/include/umfpack_get_determinant.h
+/usr/include/umfpack_get_lunz.h
+/usr/include/umfpack_get_numeric.h
+/usr/include/umfpack_get_symbolic.h
+/usr/include/umfpack_global.h
+/usr/include/umfpack_load_numeric.h
+/usr/include/umfpack_load_symbolic.h
+/usr/include/umfpack_numeric.h
+/usr/include/umfpack_qsymbolic.h
+/usr/include/umfpack_report_control.h
+/usr/include/umfpack_report_info.h
+/usr/include/umfpack_report_matrix.h
+/usr/include/umfpack_report_numeric.h
+/usr/include/umfpack_report_perm.h
+/usr/include/umfpack_report_status.h
+/usr/include/umfpack_report_symbolic.h
+/usr/include/umfpack_report_triplet.h
+/usr/include/umfpack_report_vector.h
+/usr/include/umfpack_save_numeric.h
+/usr/include/umfpack_save_symbolic.h
+/usr/include/umfpack_scale.h
+/usr/include/umfpack_solve.h
+/usr/include/umfpack_symbolic.h
+/usr/include/umfpack_tictoc.h
+/usr/include/umfpack_timer.h
+/usr/include/umfpack_transpose.h
+/usr/include/umfpack_triplet_to_col.h
+/usr/include/umfpack_wsolve.h
 /usr/lib64/libamd.so
 /usr/lib64/libbtf.so
 /usr/lib64/libcamd.so
@@ -168,7 +230,6 @@ mkdir -p  %{buildroot}/usr/bin/
 /usr/lib64/haswell/libcamd.so
 /usr/lib64/haswell/libccolamd.so
 /usr/lib64/haswell/libcholmod.so
-/usr/lib64/haswell/libcolamd.so
 /usr/lib64/haswell/libcxsparse.so
 /usr/lib64/haswell/libklu.so
 /usr/lib64/haswell/libldl.so
@@ -193,7 +254,7 @@ mkdir -p  %{buildroot}/usr/bin/
 /usr/lib64/libcolamd.so.2
 /usr/lib64/libcolamd.so.2.9.6
 /usr/lib64/libcxsparse.so.3
-/usr/lib64/libcxsparse.so.3*
+/usr/lib64/libcxsparse.so.3.2.0
 /usr/lib64/libklu.so.1
 /usr/lib64/libklu.so.1.3.8
 /usr/lib64/libldl.so.2
@@ -216,8 +277,6 @@ mkdir -p  %{buildroot}/usr/bin/
 /usr/lib64/haswell/libccolamd.so.2.9.6
 /usr/lib64/haswell/libcholmod.so.3
 /usr/lib64/haswell/libcholmod.so.3.0.11
-/usr/lib64/haswell/libcolamd.so.2
-/usr/lib64/haswell/libcolamd.so.2.9.6
 /usr/lib64/haswell/libcxsparse.so.3
 /usr/lib64/haswell/libcxsparse.so.3.2.0
 /usr/lib64/haswell/libklu.so.1
