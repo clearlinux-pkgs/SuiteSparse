@@ -1,8 +1,6 @@
-#
-#
 Name     : SuiteSparse
 Version  : 5.1.0
-Release  : 10
+Release  : 11
 URL      : http://faculty.cse.tamu.edu/davis/SuiteSparse/SuiteSparse-5.1.0.tar.gz
 Source0  : http://faculty.cse.tamu.edu/davis/SuiteSparse/SuiteSparse-5.1.0.tar.gz
 Summary  : No detailed summary available
@@ -91,6 +89,7 @@ export CFLAGS="$CFLAGS -march=haswell"
 export CXXFLAGS="$CXXFLAGS -march=haswell"
 make V=1  %{?_smp_mflags} BLAS=-lopenblas LAPACK=-lopenblas library metis
 popd
+
 %install
 export SOURCE_DATE_EPOCH=1505596563
 rm -rf %{buildroot}
@@ -98,18 +97,9 @@ pushd ../buildavx2/
 %make_install BLAS=-lopenblas LAPACK=-lopenblas INSTALL=%{buildroot}/usr  INSTALL_LIB=%{buildroot}/usr/lib64/haswell INSTALL_BIN=%{buildroot}/usr/bin || :
 popd
 %make_install BLAS=-lopenblas LAPACK=-lopenblas INSTALL=%{buildroot}/usr  INSTALL_LIB=%{buildroot}/usr/lib64 INSTALL_BIN=%{buildroot}/usr/bin || :
-## make_install_append content
 cp -a include %{buildroot}/usr
 mkdir -p  %{buildroot}/usr/bin/
-#mv %{buildroot}/builddir/build/BUILD/buildavx2/bin/* %{buildroot}/usr/bin/
-#mv %{buildroot}/builddir/build/BUILD/buildavx2/lib/* %{buildroot}/usr/lib64/
-#mv %{buildroot}/builddir/build/BUILD/buildavx2/include/* %{buildroot}/usr/include/
-#rmdir  %{buildroot}/builddir/build/BUILD/buildavx2/*
-#rmdir  %{buildroot}/builddir/build/BUILD/*
-#mdir  %{buildroot}/builddir/build/*
-#rmdir  %{buildroot}/builddir/*
-#rmdir  %{buildroot}/builddir
-## make_install_append end
+rm -f %{buildroot}/usr/include/.gitignore
 
 %files
 %defattr(-,root,root,-)
