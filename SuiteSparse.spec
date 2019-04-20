@@ -2,7 +2,7 @@
 #
 Name     : SuiteSparse
 Version  : 5.1.0
-Release  : 8
+Release  : 9
 URL      : http://faculty.cse.tamu.edu/davis/SuiteSparse/SuiteSparse-5.1.0.tar.gz
 Source0  : http://faculty.cse.tamu.edu/davis/SuiteSparse/SuiteSparse-5.1.0.tar.gz
 Summary  : No detailed summary available
@@ -163,6 +163,20 @@ mkdir -p  %{buildroot}/usr/bin/
 /usr/lib64/libspqr.so
 /usr/lib64/libsuitesparseconfig.so
 /usr/lib64/libumfpack.so
+/usr/lib64/haswell/libamd.so
+/usr/lib64/haswell/libbtf.so
+/usr/lib64/haswell/libcamd.so
+/usr/lib64/haswell/libccolamd.so
+/usr/lib64/haswell/libcholmod.so
+/usr/lib64/haswell/libcolamd.so
+/usr/lib64/haswell/libcxsparse.so
+/usr/lib64/haswell/libklu.so
+/usr/lib64/haswell/libldl.so
+/usr/lib64/haswell/libmetis.so
+/usr/lib64/haswell/librbio.so
+/usr/lib64/haswell/libspqr.so
+/usr/lib64/haswell/libsuitesparseconfig.so
+/usr/lib64/haswell/libumfpack.so
 
 %files lib
 %defattr(-,root,root,-)
@@ -192,4 +206,29 @@ mkdir -p  %{buildroot}/usr/bin/
 /usr/lib64/libsuitesparseconfig.so.5.1.0
 /usr/lib64/libumfpack.so.5
 /usr/lib64/libumfpack.so.5.7.6
-/usr/lib64/haswell/
+/usr/lib64/haswell/libamd.so.2
+/usr/lib64/haswell/libamd.so.2.4.6
+/usr/lib64/haswell/libbtf.so.1
+/usr/lib64/haswell/libbtf.so.1.2.6
+/usr/lib64/haswell/libcamd.so.2
+/usr/lib64/haswell/libcamd.so.2.4.6
+/usr/lib64/haswell/libccolamd.so.2
+/usr/lib64/haswell/libccolamd.so.2.9.6
+/usr/lib64/haswell/libcholmod.so.3
+/usr/lib64/haswell/libcholmod.so.3.0.11
+/usr/lib64/haswell/libcolamd.so.2
+/usr/lib64/haswell/libcolamd.so.2.9.6
+/usr/lib64/haswell/libcxsparse.so.3
+/usr/lib64/haswell/libcxsparse.so.3.2.0
+/usr/lib64/haswell/libklu.so.1
+/usr/lib64/haswell/libklu.so.1.3.8
+/usr/lib64/haswell/libldl.so.2
+/usr/lib64/haswell/libldl.so.2.2.6
+/usr/lib64/haswell/librbio.so.2
+/usr/lib64/haswell/librbio.so.2.2.6
+/usr/lib64/haswell/libspqr.so.2
+/usr/lib64/haswell/libspqr.so.2.0.8
+/usr/lib64/haswell/libsuitesparseconfig.so.5
+/usr/lib64/haswell/libsuitesparseconfig.so.5.1.0
+/usr/lib64/haswell/libumfpack.so.5
+/usr/lib64/haswell/libumfpack.so.5.7.6
