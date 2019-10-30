@@ -1,0 +1,2 @@
+find ./metis-5.1.0 ! -name 'LICENSE.txt' -type f -exec rm -f {} +
+ln -s %{_includedir}/metis.h include/metis.h

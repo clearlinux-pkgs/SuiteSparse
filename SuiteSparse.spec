@@ -4,7 +4,7 @@
 #
 Name     : SuiteSparse
 Version  : 5.1.0
-Release  : 15
+Release  : 26
 URL      : http://faculty.cse.tamu.edu/davis/SuiteSparse/SuiteSparse-5.1.0.tar.gz
 Source0  : http://faculty.cse.tamu.edu/davis/SuiteSparse/SuiteSparse-5.1.0.tar.gz
 Summary  : No detailed summary available
@@ -14,11 +14,13 @@ Requires: SuiteSparse-lib = %{version}-%{release}
 Requires: SuiteSparse-license = %{version}-%{release}
 BuildRequires : SuiteSparse-dev
 BuildRequires : buildreq-cmake
+BuildRequires : metis-dev
 BuildRequires : openblas
 BuildRequires : tbb-dev
 BuildRequires : util-linux
 Patch1: build.patch
 Patch2: ivdep.patch
+Patch3: makefile-metis.patch
 
 %description
 SuiteSparse: a suite of sparse matrix packages by T. A. Davis et al.
@@ -64,16 +66,21 @@ license components for the SuiteSparse package.
 %setup -q -n SuiteSparse
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 pushd ..
 cp -a SuiteSparse buildavx2
 popd
 
 %build
+## build_prepend content
+find ./metis-5.1.0 ! -name 'LICENSE.txt' -type f -exec rm -f {} +
+ln -s %{_includedir}/metis.h include/metis.h
+## build_prepend end
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1572389401
+export SOURCE_DATE_EPOCH=1572478822
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -82,17 +89,21 @@ export CFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-m
 export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
 export FFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
 export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
-make  %{?_smp_mflags}  BLAS=-lopenblas LAPACK=-lopenblas library
+make  %{?_smp_mflags}  BLAS=-lopenblas LAPACK=-lopenblas library MY_METIS_LIB=/usr/lib64/libmetis.so
 
 pushd ../buildavx2
+## build_prepend content
+find ./metis-5.1.0 ! -name 'LICENSE.txt' -type f -exec rm -f {} +
+ln -s %{_includedir}/metis.h include/metis.h
+## build_prepend end
 export CFLAGS="$CFLAGS -m64 -march=haswell"
 export CXXFLAGS="$CXXFLAGS -m64 -march=haswell"
 export LDFLAGS="$LDFLAGS -m64 -march=haswell"
-make  %{?_smp_mflags}  BLAS=-lopenblas LAPACK=-lopenblas library
+make  %{?_smp_mflags}  BLAS=-lopenblas LAPACK=-lopenblas library MY_METIS_LIB=/usr/lib64/libmetis.so
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1572389401
+export SOURCE_DATE_EPOCH=1572478822
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/SuiteSparse
 cp %{_builddir}/SuiteSparse/AMD/Doc/License.txt %{buildroot}/usr/share/package-licenses/SuiteSparse/3ab21591eed55f18245a4d40d77eb92056888701
@@ -129,19 +140,15 @@ cp %{_builddir}/SuiteSparse/UMFPACK/Doc/gpl.txt %{buildroot}/usr/share/package-l
 cp %{_builddir}/SuiteSparse/metis-5.1.0/LICENSE.txt %{buildroot}/usr/share/package-licenses/SuiteSparse/a7c3a4f7dcf7a014c7dfdd3f8752d699eb7f7c2e
 cp %{_builddir}/SuiteSparse/ssget/Doc/License.txt %{buildroot}/usr/share/package-licenses/SuiteSparse/3883f9170a394433eb82463d65a377a333838188
 pushd ../buildavx2/
-%make_install_avx2 BLAS=-lopenblas LAPACK=-lopenblas INSTALL=%{buildroot}/usr  INSTALL_LIB=%{buildroot}/usr/lib64 INSTALL_BIN=%{buildroot}/usr/bin || :
+%make_install_avx2 BLAS=-lopenblas LAPACK=-lopenblas INSTALL=%{buildroot}/usr  INSTALL_LIB=%{buildroot}/usr/lib64 INSTALL_BIN=%{buildroot}/usr/bin MY_METIS_LIB=/usr/lib64/libmetis.so || :
 popd
-%make_install BLAS=-lopenblas LAPACK=-lopenblas INSTALL=%{buildroot}/usr  INSTALL_LIB=%{buildroot}/usr/lib64 INSTALL_BIN=%{buildroot}/usr/bin || :
+%make_install BLAS=-lopenblas LAPACK=-lopenblas INSTALL=%{buildroot}/usr  INSTALL_LIB=%{buildroot}/usr/lib64 INSTALL_BIN=%{buildroot}/usr/bin MY_METIS_LIB=/usr/lib64/libmetis.so || :
+## Remove excluded files
+rm -f %{buildroot}/usr/include/.gitignore
 ## install_append content
 mkdir -p %{buildroot}/usr/include
 cp -a include/*.{h,hpp} %{buildroot}/usr/include/
-rm -f %{buildroot}/usr/include/.gitignore
 rm -f %{buildroot}/usr/include/metis.h
-rm -f %{buildroot}/usr/lib64/libmetis.so
-rm -f %{buildroot}/usr/share/abi/libmetis.so.abi
-rm -f %{buildroot}/usr/lib64/haswell/libmetis.so
-rm -f %{buildroot}/usr/share/doc/suitesparse-5.1.0/METIS_README.txt
-rm -f %{buildroot}/usr/share/doc/suitesparse-5.1.0/METIS_manual.pdf
 ## install_append end
 
 %files

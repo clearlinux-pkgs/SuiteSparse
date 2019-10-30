@@ -3,3 +3,4 @@
 openblas
 tbb-dev
 SuiteSparse-dev
+metis-dev

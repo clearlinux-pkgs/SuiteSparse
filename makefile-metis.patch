@@ -1,0 +1,16 @@
+--- a/Makefile-org	2019-10-30 10:17:16.460238924 -0700
++++ b/Makefile	2019-10-30 10:19:53.649205193 -0700
+@@ -240,12 +240,7 @@
+ 
+ # configure and compile METIS, placing the libmetis.* library in
+ # SuiteSparse/lib and the metis.h include file in SuiteSparse/include.
+-metis: include/metis.h
+-
+-# Install the shared version of METIS in SuiteSparse/lib.
+-# The SO_INSTALL_NAME commmand is only needed on the Mac, so *.dylib is
+-# hardcoded below.
+-include/metis.h:
++metis:
+ ifeq (,$(MY_METIS_LIB))
+ 	- ( cd metis-5.1.0 && $(MAKE) config shared=1 prefix=$(SUITESPARSE) )
+ 	- ( cd metis-5.1.0 && $(MAKE) )

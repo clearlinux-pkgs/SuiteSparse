@@ -1,13 +1,6 @@
 mkdir -p %{buildroot}/usr/include
 cp -a include/*.{h,hpp} %{buildroot}/usr/include/
-
-rm -f %{buildroot}/usr/include/.gitignore
 rm -f %{buildroot}/usr/include/metis.h
-rm -f %{buildroot}/usr/lib64/libmetis.so
-rm -f %{buildroot}/usr/share/abi/libmetis.so.abi
-rm -f %{buildroot}/usr/lib64/haswell/libmetis.so
-rm -f %{buildroot}/usr/share/doc/suitesparse-5.1.0/METIS_README.txt
-rm -f %{buildroot}/usr/share/doc/suitesparse-5.1.0/METIS_manual.pdf
 
 #mkdir -p  %{buildroot}/usr/bin/
 #mv %{buildroot}/builddir/build/BUILD/buildavx2/bin/* %{buildroot}/usr/bin/
