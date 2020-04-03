@@ -1,5 +1,5 @@
 PKG_NAME := SuiteSparse
-URL = http://faculty.cse.tamu.edu/davis/SuiteSparse/SuiteSparse-5.1.0.tar.gz
+URL = https://github.com/DrTimothyAldenDavis/SuiteSparse/archive/v5.7.1/SuiteSparse-5.7.1.tar.gz
 ARCHIVES = 
 
 include ../common/Makefile.common

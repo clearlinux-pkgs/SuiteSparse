@@ -332,15 +332,6 @@ diff -purN SuiteSparse.org/UMFPACK/Source/umfpack_get_numeric.c SuiteSparse/UMFP
 diff -purN SuiteSparse.org/UMFPACK/Source/umf_scale_column.c SuiteSparse/UMFPACK/Source/umf_scale_column.c
 --- SuiteSparse.org/UMFPACK/Source/umf_scale_column.c	2016-03-30 21:46:16.000000000 +0000
 +++ SuiteSparse/UMFPACK/Source/umf_scale_column.c	2017-09-16 20:52:13.247367904 +0000
-@@ -30,7 +30,7 @@
- PRIVATE void shift_pivot_row (Entry *Fd, Entry *Fs, Entry *Fe, Int len, Int d)
- {
-     Int j ;
--#pragma ivdep
-+#pragma GCC ivdep
-     for (j = 0 ; j < len ; j++)
-     {
- 	Fd [j]   = Fs [j*d] ;
 @@ -157,7 +157,7 @@ GLOBAL void UMF_scale_column
  	    Entry *Fs, *Fe ;
  	    Fs = Fcblock + fspos ;
