@@ -4,3 +4,6 @@ openblas
 tbb-dev
 SuiteSparse-dev
 metis-dev
+mpfr-dev
+gmp-dev
+eigen-dev
