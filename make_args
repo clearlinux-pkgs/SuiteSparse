@@ -1,1 +1,1 @@
-BLAS=-lopenblas LAPACK=-lopenblas library MY_METIS_LIB=/usr/lib64/libmetis.so CMAKE_OPTIONS="-DCMAKE_INSTALL_BINDIR=/usr/bin -DCMAKE_INSTALL_LIBDIR=/usr/lib64 -DCMAKE_INSTALL_INCLUDEDIR=/usr/include"
+BLAS=-lopenblas LAPACK=-lopenblas library MY_METIS_LIB=/usr/lib64/libmetis.so CMAKE_OPTIONS="-DCMAKE_INSTALL_BINDIR=/usr/bin -DCMAKE_INSTALL_LIBDIR=/usr/lib64 -DCMAKE_INSTALL_INCLUDEDIR=/usr/include" JOBS=$(nproc)

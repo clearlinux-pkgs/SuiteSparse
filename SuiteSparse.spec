@@ -4,7 +4,7 @@
 #
 Name     : SuiteSparse
 Version  : 5.10.1
-Release  : 32
+Release  : 33
 URL      : https://github.com/DrTimothyAldenDavis/SuiteSparse/archive/v5.10.1/SuiteSparse-5.10.1.tar.gz
 Source0  : https://github.com/DrTimothyAldenDavis/SuiteSparse/archive/v5.10.1/SuiteSparse-5.10.1.tar.gz
 Summary  : No detailed summary available
@@ -99,7 +99,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1622143444
+export SOURCE_DATE_EPOCH=1623096513
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -108,7 +108,7 @@ export CFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-m
 export FCFLAGS="$FFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
 export FFLAGS="$FFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
 export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
-make  %{?_smp_mflags}  BLAS=-lopenblas LAPACK=-lopenblas library MY_METIS_LIB=/usr/lib64/libmetis.so CMAKE_OPTIONS="-DCMAKE_INSTALL_BINDIR=/usr/bin -DCMAKE_INSTALL_LIBDIR=/usr/lib64 -DCMAKE_INSTALL_INCLUDEDIR=/usr/include"
+make  %{?_smp_mflags}  BLAS=-lopenblas LAPACK=-lopenblas library MY_METIS_LIB=/usr/lib64/libmetis.so CMAKE_OPTIONS="-DCMAKE_INSTALL_BINDIR=/usr/bin -DCMAKE_INSTALL_LIBDIR=/usr/lib64 -DCMAKE_INSTALL_INCLUDEDIR=/usr/include" JOBS=$(nproc)
 
 pushd ../buildavx2
 ## build_prepend content
@@ -120,7 +120,7 @@ export CXXFLAGS="$CXXFLAGS -m64 -march=haswell"
 export FFLAGS="$FFLAGS -m64 -march=haswell"
 export FCFLAGS="$FCFLAGS -m64 -march=haswell"
 export LDFLAGS="$LDFLAGS -m64 -march=haswell"
-make  %{?_smp_mflags}  BLAS=-lopenblas LAPACK=-lopenblas library MY_METIS_LIB=/usr/lib64/libmetis.so CMAKE_OPTIONS="-DCMAKE_INSTALL_BINDIR=/usr/bin -DCMAKE_INSTALL_LIBDIR=/usr/lib64 -DCMAKE_INSTALL_INCLUDEDIR=/usr/include"
+make  %{?_smp_mflags}  BLAS=-lopenblas LAPACK=-lopenblas library MY_METIS_LIB=/usr/lib64/libmetis.so CMAKE_OPTIONS="-DCMAKE_INSTALL_BINDIR=/usr/bin -DCMAKE_INSTALL_LIBDIR=/usr/lib64 -DCMAKE_INSTALL_INCLUDEDIR=/usr/include" JOBS=$(nproc)
 popd
 pushd ../buildavx512
 ## build_prepend content
@@ -132,11 +132,11 @@ export CXXFLAGS="$CXXFLAGS -m64 -march=skylake-avx512 -mprefer-vector-width=512"
 export FFLAGS="$FFLAGS -m64 -march=skylake-avx512 -mprefer-vector-width=512"
 export FCFLAGS="$FCFLAGS -m64 -march=skylake-avx512 -mprefer-vector-width=512"
 export LDFLAGS="$LDFLAGS -m64 -march=skylake-avx512"
-make  %{?_smp_mflags}  BLAS=-lopenblas LAPACK=-lopenblas library MY_METIS_LIB=/usr/lib64/libmetis.so CMAKE_OPTIONS="-DCMAKE_INSTALL_BINDIR=/usr/bin -DCMAKE_INSTALL_LIBDIR=/usr/lib64 -DCMAKE_INSTALL_INCLUDEDIR=/usr/include"
+make  %{?_smp_mflags}  BLAS=-lopenblas LAPACK=-lopenblas library MY_METIS_LIB=/usr/lib64/libmetis.so CMAKE_OPTIONS="-DCMAKE_INSTALL_BINDIR=/usr/bin -DCMAKE_INSTALL_LIBDIR=/usr/lib64 -DCMAKE_INSTALL_INCLUDEDIR=/usr/include" JOBS=$(nproc)
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1622143444
+export SOURCE_DATE_EPOCH=1623096513
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/SuiteSparse
 cp %{_builddir}/SuiteSparse-5.10.1/AMD/Doc/License.txt %{buildroot}/usr/share/package-licenses/SuiteSparse/3ab21591eed55f18245a4d40d77eb92056888701
