@@ -4,7 +4,7 @@
 #
 Name     : SuiteSparse
 Version  : 5.10.1
-Release  : 33
+Release  : 34
 URL      : https://github.com/DrTimothyAldenDavis/SuiteSparse/archive/v5.10.1/SuiteSparse-5.10.1.tar.gz
 Source0  : https://github.com/DrTimothyAldenDavis/SuiteSparse/archive/v5.10.1/SuiteSparse-5.10.1.tar.gz
 Summary  : No detailed summary available
