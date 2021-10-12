@@ -6,6 +6,4 @@ libm.so.6
 libmetis.so
 libmpfr.so.6
 libopenblas.so.0
-libpthread.so.0
-librt.so.1
 libstdc++.so.6

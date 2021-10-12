@@ -4,13 +4,14 @@
 #
 Name     : SuiteSparse
 Version  : 5.10.1
-Release  : 34
+Release  : 35
 URL      : https://github.com/DrTimothyAldenDavis/SuiteSparse/archive/v5.10.1/SuiteSparse-5.10.1.tar.gz
 Source0  : https://github.com/DrTimothyAldenDavis/SuiteSparse/archive/v5.10.1/SuiteSparse-5.10.1.tar.gz
 Summary  : No detailed summary available
 Group    : Development/Tools
 License  : Apache-2.0 BSD-3-Clause GPL-2.0 GPL-3.0 LGPL-2.1
 Requires: SuiteSparse-bin = %{version}-%{release}
+Requires: SuiteSparse-filemap = %{version}-%{release}
 Requires: SuiteSparse-lib = %{version}-%{release}
 Requires: SuiteSparse-license = %{version}-%{release}
 BuildRequires : SuiteSparse-dev
@@ -34,6 +35,7 @@ SuiteSparse: a suite of sparse matrix packages by T. A. Davis et al.
 Summary: bin components for the SuiteSparse package.
 Group: Binaries
 Requires: SuiteSparse-license = %{version}-%{release}
+Requires: SuiteSparse-filemap = %{version}-%{release}
 
 %description bin
 bin components for the SuiteSparse package.
@@ -59,10 +61,19 @@ Group: Documentation
 doc components for the SuiteSparse package.
 
 
+%package filemap
+Summary: filemap components for the SuiteSparse package.
+Group: Default
+
+%description filemap
+filemap components for the SuiteSparse package.
+
+
 %package lib
 Summary: lib components for the SuiteSparse package.
 Group: Libraries
 Requires: SuiteSparse-license = %{version}-%{release}
+Requires: SuiteSparse-filemap = %{version}-%{release}
 
 %description lib
 lib components for the SuiteSparse package.
@@ -99,15 +110,12 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1623096513
+export SOURCE_DATE_EPOCH=1634073993
 export GCC_IGNORE_WERROR=1
-export AR=gcc-ar
-export RANLIB=gcc-ranlib
-export NM=gcc-nm
-export CFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
-export FCFLAGS="$FFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
-export FFLAGS="$FFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
-export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
+export CFLAGS="$CFLAGS -Ofast -falign-functions=32 -fno-lto -fno-semantic-interposition -mno-vzeroupper -mprefer-vector-width=256 "
+export FCFLAGS="$FFLAGS -Ofast -falign-functions=32 -fno-lto -fno-semantic-interposition -mno-vzeroupper -mprefer-vector-width=256 "
+export FFLAGS="$FFLAGS -Ofast -falign-functions=32 -fno-lto -fno-semantic-interposition -mno-vzeroupper -mprefer-vector-width=256 "
+export CXXFLAGS="$CXXFLAGS -Ofast -falign-functions=32 -fno-lto -fno-semantic-interposition -mno-vzeroupper -mprefer-vector-width=256 "
 make  %{?_smp_mflags}  BLAS=-lopenblas LAPACK=-lopenblas library MY_METIS_LIB=/usr/lib64/libmetis.so CMAKE_OPTIONS="-DCMAKE_INSTALL_BINDIR=/usr/bin -DCMAKE_INSTALL_LIBDIR=/usr/lib64 -DCMAKE_INSTALL_INCLUDEDIR=/usr/include" JOBS=$(nproc)
 
 pushd ../buildavx2
@@ -115,11 +123,11 @@ pushd ../buildavx2
 find ./metis-5.1.0 ! -name 'LICENSE.txt' -type f -exec rm -f {} +
 ln -s %{_includedir}/metis.h include/metis.h
 ## build_prepend end
-export CFLAGS="$CFLAGS -m64 -march=haswell"
-export CXXFLAGS="$CXXFLAGS -m64 -march=haswell"
-export FFLAGS="$FFLAGS -m64 -march=haswell"
-export FCFLAGS="$FCFLAGS -m64 -march=haswell"
-export LDFLAGS="$LDFLAGS -m64 -march=haswell"
+export CFLAGS="$CFLAGS -m64 -march=x86-64-v3"
+export CXXFLAGS="$CXXFLAGS -m64 -march=x86-64-v3"
+export FFLAGS="$FFLAGS -m64 -march=x86-64-v3"
+export FCFLAGS="$FCFLAGS -m64 -march=x86-64-v3"
+export LDFLAGS="$LDFLAGS -m64 -march=x86-64-v3"
 make  %{?_smp_mflags}  BLAS=-lopenblas LAPACK=-lopenblas library MY_METIS_LIB=/usr/lib64/libmetis.so CMAKE_OPTIONS="-DCMAKE_INSTALL_BINDIR=/usr/bin -DCMAKE_INSTALL_LIBDIR=/usr/lib64 -DCMAKE_INSTALL_INCLUDEDIR=/usr/include" JOBS=$(nproc)
 popd
 pushd ../buildavx512
@@ -127,16 +135,16 @@ pushd ../buildavx512
 find ./metis-5.1.0 ! -name 'LICENSE.txt' -type f -exec rm -f {} +
 ln -s %{_includedir}/metis.h include/metis.h
 ## build_prepend end
-export CFLAGS="$CFLAGS -m64 -march=skylake-avx512 -mprefer-vector-width=512"
-export CXXFLAGS="$CXXFLAGS -m64 -march=skylake-avx512 -mprefer-vector-width=512"
-export FFLAGS="$FFLAGS -m64 -march=skylake-avx512 -mprefer-vector-width=512"
-export FCFLAGS="$FCFLAGS -m64 -march=skylake-avx512 -mprefer-vector-width=512"
-export LDFLAGS="$LDFLAGS -m64 -march=skylake-avx512"
+export CFLAGS="$CFLAGS -m64 -march=x86-64-v4 -mprefer-vector-width=256"
+export CXXFLAGS="$CXXFLAGS -m64 -march=x86-64-v4 -mprefer-vector-width=256"
+export FFLAGS="$FFLAGS -m64 -march=x86-64-v4 -mprefer-vector-width=256"
+export FCFLAGS="$FCFLAGS -m64 -march=x86-64-v4 -mprefer-vector-width=256"
+export LDFLAGS="$LDFLAGS -m64 -march=x86-64-v4"
 make  %{?_smp_mflags}  BLAS=-lopenblas LAPACK=-lopenblas library MY_METIS_LIB=/usr/lib64/libmetis.so CMAKE_OPTIONS="-DCMAKE_INSTALL_BINDIR=/usr/bin -DCMAKE_INSTALL_LIBDIR=/usr/lib64 -DCMAKE_INSTALL_INCLUDEDIR=/usr/include" JOBS=$(nproc)
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1623096513
+export SOURCE_DATE_EPOCH=1634073993
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/SuiteSparse
 cp %{_builddir}/SuiteSparse-5.10.1/AMD/Doc/License.txt %{buildroot}/usr/share/package-licenses/SuiteSparse/3ab21591eed55f18245a4d40d77eb92056888701
@@ -178,15 +186,17 @@ cp %{_builddir}/SuiteSparse-5.10.1/UMFPACK/Doc/License.txt %{buildroot}/usr/shar
 cp %{_builddir}/SuiteSparse-5.10.1/UMFPACK/Doc/gpl.txt %{buildroot}/usr/share/package-licenses/SuiteSparse/b47456e2c1f38c40346ff00db976a2badf36b5e3
 cp %{_builddir}/SuiteSparse-5.10.1/metis-5.1.0/LICENSE.txt %{buildroot}/usr/share/package-licenses/SuiteSparse/a7c3a4f7dcf7a014c7dfdd3f8752d699eb7f7c2e
 cp %{_builddir}/SuiteSparse-5.10.1/ssget/Doc/License.txt %{buildroot}/usr/share/package-licenses/SuiteSparse/c7f1e603ba9c4d9bfbfe9af7453ceaa7f33c582c
-pushd ../buildavx512/
-%make_install_avx512 BLAS=-lopenblas LAPACK=-lopenblas INSTALL=%{buildroot}/usr  INSTALL_LIB=%{buildroot}/usr/lib64 INSTALL_BIN=%{buildroot}/usr/bin MY_METIS_LIB=/usr/lib64/libmetis.so || :
-popd
 pushd ../buildavx2/
-%make_install_avx2 BLAS=-lopenblas LAPACK=-lopenblas INSTALL=%{buildroot}/usr  INSTALL_LIB=%{buildroot}/usr/lib64 INSTALL_BIN=%{buildroot}/usr/bin MY_METIS_LIB=/usr/lib64/libmetis.so || :
+%make_install_v3 BLAS=-lopenblas LAPACK=-lopenblas INSTALL=%{buildroot}/usr  INSTALL_LIB=%{buildroot}/usr/lib64 INSTALL_BIN=%{buildroot}/usr/bin MY_METIS_LIB=/usr/lib64/libmetis.so || :
+/usr/bin/elf-move.py avx2 %{buildroot}-v3 %{buildroot}/usr/share/clear/optimized-elf/ %{buildroot}/usr/share/clear/filemap/filemap-%{name}
+popd
+pushd ../buildavx512/
+%make_install_v4 BLAS=-lopenblas LAPACK=-lopenblas INSTALL=%{buildroot}/usr  INSTALL_LIB=%{buildroot}/usr/lib64 INSTALL_BIN=%{buildroot}/usr/bin MY_METIS_LIB=/usr/lib64/libmetis.so || :
+/usr/bin/elf-move.py avx512 %{buildroot}-v4 %{buildroot}/usr/share/clear/optimized-elf/ %{buildroot}/usr/share/clear/filemap/filemap-%{name}
 popd
 %make_install BLAS=-lopenblas LAPACK=-lopenblas INSTALL=%{buildroot}/usr  INSTALL_LIB=%{buildroot}/usr/lib64 INSTALL_BIN=%{buildroot}/usr/bin MY_METIS_LIB=/usr/lib64/libmetis.so || :
 ## Remove excluded files
-rm -f %{buildroot}/usr/include/.gitignore
+rm -f %{buildroot}*/usr/include/.gitignore
 ## install_append content
 mkdir -p %{buildroot}/usr/include
 cp -a include/*.{h,hpp} %{buildroot}/usr/include/
@@ -198,9 +208,8 @@ rm -f %{buildroot}/usr/include/metis.h
 
 %files bin
 %defattr(-,root,root,-)
-/usr/bin/haswell/avx512_1/mongoose
-/usr/bin/haswell/mongoose
 /usr/bin/mongoose
+/usr/share/clear/optimized-elf/bin*
 
 %files dev
 %defattr(-,root,root,-)
@@ -271,35 +280,6 @@ rm -f %{buildroot}/usr/include/metis.h
 /usr/include/umfpack_transpose.h
 /usr/include/umfpack_triplet_to_col.h
 /usr/include/umfpack_wsolve.h
-/usr/lib64/haswell/avx512_1/libamd.so
-/usr/lib64/haswell/avx512_1/libbtf.so
-/usr/lib64/haswell/avx512_1/libcamd.so
-/usr/lib64/haswell/avx512_1/libccolamd.so
-/usr/lib64/haswell/avx512_1/libcholmod.so
-/usr/lib64/haswell/avx512_1/libcolamd.so
-/usr/lib64/haswell/avx512_1/libcxsparse.so
-/usr/lib64/haswell/avx512_1/libgraphblas.so
-/usr/lib64/haswell/avx512_1/libklu.so
-/usr/lib64/haswell/avx512_1/libldl.so
-/usr/lib64/haswell/avx512_1/librbio.so
-/usr/lib64/haswell/avx512_1/libsliplu.so
-/usr/lib64/haswell/avx512_1/libspqr.so
-/usr/lib64/haswell/avx512_1/libumfpack.so
-/usr/lib64/haswell/libamd.so
-/usr/lib64/haswell/libbtf.so
-/usr/lib64/haswell/libcamd.so
-/usr/lib64/haswell/libccolamd.so
-/usr/lib64/haswell/libcholmod.so
-/usr/lib64/haswell/libcolamd.so
-/usr/lib64/haswell/libcxsparse.so
-/usr/lib64/haswell/libgraphblas.so
-/usr/lib64/haswell/libklu.so
-/usr/lib64/haswell/libldl.so
-/usr/lib64/haswell/librbio.so
-/usr/lib64/haswell/libsliplu.so
-/usr/lib64/haswell/libspqr.so
-/usr/lib64/haswell/libsuitesparseconfig.so
-/usr/lib64/haswell/libumfpack.so
 /usr/lib64/libamd.so
 /usr/lib64/libbtf.so
 /usr/lib64/libcamd.so
@@ -342,66 +322,12 @@ rm -f %{buildroot}/usr/include/metis.h
 /usr/share/doc/suitesparse-5.10.1/ldl_userguide.pdf
 /usr/share/doc/suitesparse-5.10.1/spqr_user_guide.pdf
 
+%files filemap
+%defattr(-,root,root,-)
+/usr/share/clear/filemap/filemap-SuiteSparse
+
 %files lib
 %defattr(-,root,root,-)
-/usr/lib64/haswell/avx512_1/libamd.so.2
-/usr/lib64/haswell/avx512_1/libamd.so.2.4.6
-/usr/lib64/haswell/avx512_1/libbtf.so.1
-/usr/lib64/haswell/avx512_1/libbtf.so.1.2.6
-/usr/lib64/haswell/avx512_1/libcamd.so.2
-/usr/lib64/haswell/avx512_1/libcamd.so.2.4.6
-/usr/lib64/haswell/avx512_1/libccolamd.so.2
-/usr/lib64/haswell/avx512_1/libccolamd.so.2.9.6
-/usr/lib64/haswell/avx512_1/libcholmod.so.3
-/usr/lib64/haswell/avx512_1/libcholmod.so.3.0.14
-/usr/lib64/haswell/avx512_1/libcolamd.so.2
-/usr/lib64/haswell/avx512_1/libcolamd.so.2.9.6
-/usr/lib64/haswell/avx512_1/libcxsparse.so.3
-/usr/lib64/haswell/avx512_1/libcxsparse.so.3.2.0
-/usr/lib64/haswell/avx512_1/libgraphblas.so.5
-/usr/lib64/haswell/avx512_1/libgraphblas.so.5.0.5
-/usr/lib64/haswell/avx512_1/libklu.so.1
-/usr/lib64/haswell/avx512_1/libklu.so.1.3.8
-/usr/lib64/haswell/avx512_1/libldl.so.2
-/usr/lib64/haswell/avx512_1/libldl.so.2.2.6
-/usr/lib64/haswell/avx512_1/librbio.so.2
-/usr/lib64/haswell/avx512_1/librbio.so.2.2.6
-/usr/lib64/haswell/avx512_1/libsliplu.so.1
-/usr/lib64/haswell/avx512_1/libsliplu.so.1.0.2
-/usr/lib64/haswell/avx512_1/libspqr.so.2
-/usr/lib64/haswell/avx512_1/libspqr.so.2.0.9
-/usr/lib64/haswell/avx512_1/libumfpack.so.5
-/usr/lib64/haswell/avx512_1/libumfpack.so.5.7.9
-/usr/lib64/haswell/libamd.so.2
-/usr/lib64/haswell/libamd.so.2.4.6
-/usr/lib64/haswell/libbtf.so.1
-/usr/lib64/haswell/libbtf.so.1.2.6
-/usr/lib64/haswell/libcamd.so.2
-/usr/lib64/haswell/libcamd.so.2.4.6
-/usr/lib64/haswell/libccolamd.so.2
-/usr/lib64/haswell/libccolamd.so.2.9.6
-/usr/lib64/haswell/libcholmod.so.3
-/usr/lib64/haswell/libcholmod.so.3.0.14
-/usr/lib64/haswell/libcolamd.so.2
-/usr/lib64/haswell/libcolamd.so.2.9.6
-/usr/lib64/haswell/libcxsparse.so.3
-/usr/lib64/haswell/libcxsparse.so.3.2.0
-/usr/lib64/haswell/libgraphblas.so.5
-/usr/lib64/haswell/libgraphblas.so.5.0.5
-/usr/lib64/haswell/libklu.so.1
-/usr/lib64/haswell/libklu.so.1.3.8
-/usr/lib64/haswell/libldl.so.2
-/usr/lib64/haswell/libldl.so.2.2.6
-/usr/lib64/haswell/librbio.so.2
-/usr/lib64/haswell/librbio.so.2.2.6
-/usr/lib64/haswell/libsliplu.so.1
-/usr/lib64/haswell/libsliplu.so.1.0.2
-/usr/lib64/haswell/libspqr.so.2
-/usr/lib64/haswell/libspqr.so.2.0.9
-/usr/lib64/haswell/libsuitesparseconfig.so.5
-/usr/lib64/haswell/libsuitesparseconfig.so.5.10.1
-/usr/lib64/haswell/libumfpack.so.5
-/usr/lib64/haswell/libumfpack.so.5.7.9
 /usr/lib64/libamd.so.2
 /usr/lib64/libamd.so.2.4.6
 /usr/lib64/libbtf.so.1
@@ -434,6 +360,7 @@ rm -f %{buildroot}/usr/include/metis.h
 /usr/lib64/libsuitesparseconfig.so.5.10.1
 /usr/lib64/libumfpack.so.5
 /usr/lib64/libumfpack.so.5.7.9
+/usr/share/clear/optimized-elf/lib*
 
 %files license
 %defattr(0644,root,root,0755)
