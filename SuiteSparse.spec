@@ -4,7 +4,7 @@
 #
 Name     : SuiteSparse
 Version  : 5.10.1
-Release  : 37
+Release  : 38
 URL      : https://github.com/DrTimothyAldenDavis/SuiteSparse/archive/v5.10.1/SuiteSparse-5.10.1.tar.gz
 Source0  : https://github.com/DrTimothyAldenDavis/SuiteSparse/archive/v5.10.1/SuiteSparse-5.10.1.tar.gz
 Summary  : No detailed summary available
@@ -110,12 +110,12 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1634073993
+export SOURCE_DATE_EPOCH=1656360579
 export GCC_IGNORE_WERROR=1
-export CFLAGS="$CFLAGS -Ofast -falign-functions=32 -fno-lto -fno-semantic-interposition -mno-vzeroupper -mprefer-vector-width=256 "
-export FCFLAGS="$FFLAGS -Ofast -falign-functions=32 -fno-lto -fno-semantic-interposition -mno-vzeroupper -mprefer-vector-width=256 "
-export FFLAGS="$FFLAGS -Ofast -falign-functions=32 -fno-lto -fno-semantic-interposition -mno-vzeroupper -mprefer-vector-width=256 "
-export CXXFLAGS="$CXXFLAGS -Ofast -falign-functions=32 -fno-lto -fno-semantic-interposition -mno-vzeroupper -mprefer-vector-width=256 "
+export CFLAGS="$CFLAGS -Ofast -falign-functions=32 -fno-lto -fno-semantic-interposition -mprefer-vector-width=256 "
+export FCFLAGS="$FFLAGS -Ofast -falign-functions=32 -fno-lto -fno-semantic-interposition -mprefer-vector-width=256 "
+export FFLAGS="$FFLAGS -Ofast -falign-functions=32 -fno-lto -fno-semantic-interposition -mprefer-vector-width=256 "
+export CXXFLAGS="$CXXFLAGS -Ofast -falign-functions=32 -fno-lto -fno-semantic-interposition -mprefer-vector-width=256 "
 make  %{?_smp_mflags}  BLAS=-lopenblas LAPACK=-lopenblas library MY_METIS_LIB=/usr/lib64/libmetis.so CMAKE_OPTIONS="-DCMAKE_INSTALL_BINDIR=/usr/bin -DCMAKE_INSTALL_LIBDIR=/usr/lib64 -DCMAKE_INSTALL_INCLUDEDIR=/usr/include" JOBS=$(nproc)
 
 pushd ../buildavx2
@@ -123,9 +123,9 @@ pushd ../buildavx2
 find ./metis-5.1.0 ! -name 'LICENSE.txt' -type f -exec rm -f {} +
 ln -s %{_includedir}/metis.h include/metis.h
 ## build_prepend end
-export CFLAGS="$CFLAGS -m64 -march=x86-64-v3"
-export CXXFLAGS="$CXXFLAGS -m64 -march=x86-64-v3"
-export FFLAGS="$FFLAGS -m64 -march=x86-64-v3"
+export CFLAGS="$CFLAGS -m64 -march=x86-64-v3 -Wl,-z,x86-64-v3"
+export CXXFLAGS="$CXXFLAGS -m64 -march=x86-64-v3 -Wl,-z,x86-64-v3"
+export FFLAGS="$FFLAGS -m64 -march=x86-64-v3 -Wl,-z,x86-64-v3"
 export FCFLAGS="$FCFLAGS -m64 -march=x86-64-v3"
 export LDFLAGS="$LDFLAGS -m64 -march=x86-64-v3"
 make  %{?_smp_mflags}  BLAS=-lopenblas LAPACK=-lopenblas library MY_METIS_LIB=/usr/lib64/libmetis.so CMAKE_OPTIONS="-DCMAKE_INSTALL_BINDIR=/usr/bin -DCMAKE_INSTALL_LIBDIR=/usr/lib64 -DCMAKE_INSTALL_INCLUDEDIR=/usr/include" JOBS=$(nproc)
@@ -135,16 +135,16 @@ pushd ../buildavx512
 find ./metis-5.1.0 ! -name 'LICENSE.txt' -type f -exec rm -f {} +
 ln -s %{_includedir}/metis.h include/metis.h
 ## build_prepend end
-export CFLAGS="$CFLAGS -m64 -march=x86-64-v4 -mprefer-vector-width=256"
-export CXXFLAGS="$CXXFLAGS -m64 -march=x86-64-v4 -mprefer-vector-width=256"
-export FFLAGS="$FFLAGS -m64 -march=x86-64-v4 -mprefer-vector-width=256"
+export CFLAGS="$CFLAGS -m64 -march=x86-64-v4 -mprefer-vector-width=256 -Wl,-z,x86-64-v4"
+export CXXFLAGS="$CXXFLAGS -m64 -march=x86-64-v4 -mprefer-vector-width=256 -Wl,-z,x86-64-v4"
+export FFLAGS="$FFLAGS -m64 -march=x86-64-v4 -mprefer-vector-width=256 -Wl,-z,x86-64-v4"
 export FCFLAGS="$FCFLAGS -m64 -march=x86-64-v4 -mprefer-vector-width=256"
 export LDFLAGS="$LDFLAGS -m64 -march=x86-64-v4"
 make  %{?_smp_mflags}  BLAS=-lopenblas LAPACK=-lopenblas library MY_METIS_LIB=/usr/lib64/libmetis.so CMAKE_OPTIONS="-DCMAKE_INSTALL_BINDIR=/usr/bin -DCMAKE_INSTALL_LIBDIR=/usr/lib64 -DCMAKE_INSTALL_INCLUDEDIR=/usr/include" JOBS=$(nproc)
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1634073993
+export SOURCE_DATE_EPOCH=1656360579
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/SuiteSparse
 cp %{_builddir}/SuiteSparse-5.10.1/AMD/Doc/License.txt %{buildroot}/usr/share/package-licenses/SuiteSparse/3ab21591eed55f18245a4d40d77eb92056888701
@@ -188,11 +188,9 @@ cp %{_builddir}/SuiteSparse-5.10.1/metis-5.1.0/LICENSE.txt %{buildroot}/usr/shar
 cp %{_builddir}/SuiteSparse-5.10.1/ssget/Doc/License.txt %{buildroot}/usr/share/package-licenses/SuiteSparse/c7f1e603ba9c4d9bfbfe9af7453ceaa7f33c582c
 pushd ../buildavx2/
 %make_install_v3 BLAS=-lopenblas LAPACK=-lopenblas INSTALL=%{buildroot}/usr  INSTALL_LIB=%{buildroot}/usr/lib64 INSTALL_BIN=%{buildroot}/usr/bin MY_METIS_LIB=/usr/lib64/libmetis.so || :
-/usr/bin/elf-move.py avx2 %{buildroot}-v3 %{buildroot}/usr/share/clear/optimized-elf/ %{buildroot}/usr/share/clear/filemap/filemap-%{name}
 popd
 pushd ../buildavx512/
 %make_install_v4 BLAS=-lopenblas LAPACK=-lopenblas INSTALL=%{buildroot}/usr  INSTALL_LIB=%{buildroot}/usr/lib64 INSTALL_BIN=%{buildroot}/usr/bin MY_METIS_LIB=/usr/lib64/libmetis.so || :
-/usr/bin/elf-move.py avx512 %{buildroot}-v4 %{buildroot}/usr/share/clear/optimized-elf/ %{buildroot}/usr/share/clear/filemap/filemap-%{name}
 popd
 %make_install BLAS=-lopenblas LAPACK=-lopenblas INSTALL=%{buildroot}/usr  INSTALL_LIB=%{buildroot}/usr/lib64 INSTALL_BIN=%{buildroot}/usr/bin MY_METIS_LIB=/usr/lib64/libmetis.so || :
 ## Remove excluded files
@@ -202,6 +200,8 @@ mkdir -p %{buildroot}/usr/include
 cp -a include/*.{h,hpp} %{buildroot}/usr/include/
 rm -f %{buildroot}/usr/include/metis.h
 ## install_append end
+/usr/bin/elf-move.py avx2 %{buildroot}-v3 %{buildroot} %{buildroot}/usr/share/clear/filemap/filemap-%{name}
+/usr/bin/elf-move.py avx512 %{buildroot}-v4 %{buildroot} %{buildroot}/usr/share/clear/filemap/filemap-%{name}
 
 %files
 %defattr(-,root,root,-)
@@ -280,6 +280,10 @@ rm -f %{buildroot}/usr/include/metis.h
 /usr/include/umfpack_transpose.h
 /usr/include/umfpack_triplet_to_col.h
 /usr/include/umfpack_wsolve.h
+/usr/lib64/glibc-hwcaps/x86-64-v3/libgraphblas.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libmongoose.so
+/usr/lib64/glibc-hwcaps/x86-64-v4/libgraphblas.so
+/usr/lib64/glibc-hwcaps/x86-64-v4/libmongoose.so
 /usr/lib64/libamd.so
 /usr/lib64/libbtf.so
 /usr/lib64/libcamd.so
@@ -328,6 +332,14 @@ rm -f %{buildroot}/usr/include/metis.h
 
 %files lib
 %defattr(-,root,root,-)
+/usr/lib64/glibc-hwcaps/x86-64-v3/libgraphblas.so.5
+/usr/lib64/glibc-hwcaps/x86-64-v3/libgraphblas.so.5.0.5
+/usr/lib64/glibc-hwcaps/x86-64-v3/libmongoose.so.2
+/usr/lib64/glibc-hwcaps/x86-64-v3/libmongoose.so.2.0.4
+/usr/lib64/glibc-hwcaps/x86-64-v4/libgraphblas.so.5
+/usr/lib64/glibc-hwcaps/x86-64-v4/libgraphblas.so.5.0.5
+/usr/lib64/glibc-hwcaps/x86-64-v4/libmongoose.so.2
+/usr/lib64/glibc-hwcaps/x86-64-v4/libmongoose.so.2.0.4
 /usr/lib64/libamd.so.2
 /usr/lib64/libamd.so.2.4.6
 /usr/lib64/libbtf.so.1
@@ -360,7 +372,6 @@ rm -f %{buildroot}/usr/include/metis.h
 /usr/lib64/libsuitesparseconfig.so.5.10.1
 /usr/lib64/libumfpack.so.5
 /usr/lib64/libumfpack.so.5.7.9
-/usr/share/clear/optimized-elf/lib*
 
 %files license
 %defattr(0644,root,root,0755)
