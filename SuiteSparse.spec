@@ -4,7 +4,7 @@
 #
 Name     : SuiteSparse
 Version  : 5.10.1
-Release  : 43
+Release  : 44
 URL      : https://github.com/DrTimothyAldenDavis/SuiteSparse/archive/v5.10.1/SuiteSparse-5.10.1.tar.gz
 Source0  : https://github.com/DrTimothyAldenDavis/SuiteSparse/archive/v5.10.1/SuiteSparse-5.10.1.tar.gz
 Summary  : No detailed summary available
@@ -119,12 +119,12 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1662592718
+export SOURCE_DATE_EPOCH=1667443414
 export GCC_IGNORE_WERROR=1
-export CFLAGS="$CFLAGS -Ofast -falign-functions=32 -fno-lto -fno-semantic-interposition -mprefer-vector-width=256 "
-export FCFLAGS="$FFLAGS -Ofast -falign-functions=32 -fno-lto -fno-semantic-interposition -mprefer-vector-width=256 "
-export FFLAGS="$FFLAGS -Ofast -falign-functions=32 -fno-lto -fno-semantic-interposition -mprefer-vector-width=256 "
-export CXXFLAGS="$CXXFLAGS -Ofast -falign-functions=32 -fno-lto -fno-semantic-interposition -mprefer-vector-width=256 "
+export CFLAGS="$CFLAGS -Ofast -falign-functions=32 -fno-lto -fno-semantic-interposition "
+export FCFLAGS="$FFLAGS -Ofast -falign-functions=32 -fno-lto -fno-semantic-interposition "
+export FFLAGS="$FFLAGS -Ofast -falign-functions=32 -fno-lto -fno-semantic-interposition "
+export CXXFLAGS="$CXXFLAGS -Ofast -falign-functions=32 -fno-lto -fno-semantic-interposition "
 make  %{?_smp_mflags}  BLAS=-lopenblas LAPACK=-lopenblas library MY_METIS_LIB=/usr/lib64/libmetis.so CMAKE_OPTIONS="-DCMAKE_INSTALL_BINDIR=/usr/bin -DCMAKE_INSTALL_LIBDIR=/usr/lib64 -DCMAKE_INSTALL_INCLUDEDIR=/usr/include" JOBS=$(nproc)
 
 pushd ../buildavx2
@@ -144,57 +144,57 @@ pushd ../buildavx512
 find ./metis-5.1.0 ! -name 'LICENSE.txt' -type f -exec rm -f {} +
 ln -s %{_includedir}/metis.h include/metis.h
 ## build_prepend end
-export CFLAGS="$CFLAGS -m64 -march=x86-64-v4 -mprefer-vector-width=256 -Wl,-z,x86-64-v4"
-export CXXFLAGS="$CXXFLAGS -m64 -march=x86-64-v4 -mprefer-vector-width=256 -Wl,-z,x86-64-v4"
-export FFLAGS="$FFLAGS -m64 -march=x86-64-v4 -mprefer-vector-width=256 -Wl,-z,x86-64-v4"
+export CFLAGS="$CFLAGS -m64 -march=x86-64-v4 -mprefer-vector-width=512 -Wl,-z,x86-64-v4 -mtune=sapphirerapids "
+export CXXFLAGS="$CXXFLAGS -m64 -march=x86-64-v4 -mprefer-vector-width=512 -Wl,-z,x86-64-v4 -mtune=sapphirerapids "
+export FFLAGS="$FFLAGS -m64 -march=x86-64-v4 -mprefer-vector-width=512 -Wl,-z,x86-64-v4"
 export FCFLAGS="$FCFLAGS -m64 -march=x86-64-v4 -mprefer-vector-width=256"
 export LDFLAGS="$LDFLAGS -m64 -march=x86-64-v4"
 make  %{?_smp_mflags}  BLAS=-lopenblas LAPACK=-lopenblas library MY_METIS_LIB=/usr/lib64/libmetis.so CMAKE_OPTIONS="-DCMAKE_INSTALL_BINDIR=/usr/bin -DCMAKE_INSTALL_LIBDIR=/usr/lib64 -DCMAKE_INSTALL_INCLUDEDIR=/usr/include" JOBS=$(nproc)
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1662592718
+export SOURCE_DATE_EPOCH=1667443414
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/SuiteSparse
-cp %{_builddir}/SuiteSparse-%{version}/AMD/Doc/License.txt %{buildroot}/usr/share/package-licenses/SuiteSparse/3ab21591eed55f18245a4d40d77eb92056888701
-cp %{_builddir}/SuiteSparse-%{version}/BTF/Doc/License.txt %{buildroot}/usr/share/package-licenses/SuiteSparse/b13f6d59d5b230774696d884785ec850e6d31bc2
-cp %{_builddir}/SuiteSparse-%{version}/CAMD/Doc/License.txt %{buildroot}/usr/share/package-licenses/SuiteSparse/a62dec2a77f26f4925d49f03b155b3290cb7cfe1
-cp %{_builddir}/SuiteSparse-%{version}/CCOLAMD/Doc/License.txt %{buildroot}/usr/share/package-licenses/SuiteSparse/de522c4d6fbb410a79215466e3449a4cb6bdd3ce
-cp %{_builddir}/SuiteSparse-%{version}/CHOLMOD/Demo/gpl.txt %{buildroot}/usr/share/package-licenses/SuiteSparse/b47456e2c1f38c40346ff00db976a2badf36b5e3
-cp %{_builddir}/SuiteSparse-%{version}/CHOLMOD/MATLAB/gpl.txt %{buildroot}/usr/share/package-licenses/SuiteSparse/b47456e2c1f38c40346ff00db976a2badf36b5e3
-cp %{_builddir}/SuiteSparse-%{version}/CHOLMOD/MatrixOps/gpl.txt %{buildroot}/usr/share/package-licenses/SuiteSparse/b47456e2c1f38c40346ff00db976a2badf36b5e3
-cp %{_builddir}/SuiteSparse-%{version}/CHOLMOD/Modify/gpl.txt %{buildroot}/usr/share/package-licenses/SuiteSparse/b47456e2c1f38c40346ff00db976a2badf36b5e3
-cp %{_builddir}/SuiteSparse-%{version}/CHOLMOD/Supernodal/gpl.txt %{buildroot}/usr/share/package-licenses/SuiteSparse/b47456e2c1f38c40346ff00db976a2badf36b5e3
-cp %{_builddir}/SuiteSparse-%{version}/CHOLMOD/Tcov/gpl.txt %{buildroot}/usr/share/package-licenses/SuiteSparse/b47456e2c1f38c40346ff00db976a2badf36b5e3
-cp %{_builddir}/SuiteSparse-%{version}/CHOLMOD/Valgrind/gpl.txt %{buildroot}/usr/share/package-licenses/SuiteSparse/b47456e2c1f38c40346ff00db976a2badf36b5e3
-cp %{_builddir}/SuiteSparse-%{version}/COLAMD/Doc/License.txt %{buildroot}/usr/share/package-licenses/SuiteSparse/faa0661d302ed2af604ec96af361af9efcf81a63
-cp %{_builddir}/SuiteSparse-%{version}/CSparse/Doc/License.txt %{buildroot}/usr/share/package-licenses/SuiteSparse/f8fdd046aa7b6df4eb00a0f5a84b0edd23c3b15a
-cp %{_builddir}/SuiteSparse-%{version}/CSparse/MATLAB/ssget/Doc/License.txt %{buildroot}/usr/share/package-licenses/SuiteSparse/c7f1e603ba9c4d9bfbfe9af7453ceaa7f33c582c
-cp %{_builddir}/SuiteSparse-%{version}/CXSparse/Doc/License.txt %{buildroot}/usr/share/package-licenses/SuiteSparse/21951afb2d8cb7f350c28dee727d2009d222301c
-cp %{_builddir}/SuiteSparse-%{version}/CXSparse/MATLAB/ssget/Doc/License.txt %{buildroot}/usr/share/package-licenses/SuiteSparse/c7f1e603ba9c4d9bfbfe9af7453ceaa7f33c582c
-cp %{_builddir}/SuiteSparse-%{version}/CXSparse_newfiles/Doc/License.txt %{buildroot}/usr/share/package-licenses/SuiteSparse/21951afb2d8cb7f350c28dee727d2009d222301c
-cp %{_builddir}/SuiteSparse-%{version}/GPUQREngine/Doc/License.txt %{buildroot}/usr/share/package-licenses/SuiteSparse/25bc1bfcf61590bd9e715d24eecedf5ec09760e4
-cp %{_builddir}/SuiteSparse-%{version}/GPUQREngine/Doc/gpl.txt %{buildroot}/usr/share/package-licenses/SuiteSparse/b47456e2c1f38c40346ff00db976a2badf36b5e3
-cp %{_builddir}/SuiteSparse-%{version}/GraphBLAS/CUDA/License.txt %{buildroot}/usr/share/package-licenses/SuiteSparse/b8ad93379e28ac7d7fd4f5179d77f5e353e7fb37
-cp %{_builddir}/SuiteSparse-%{version}/GraphBLAS/CUDA/test/googlemock/LICENSE %{buildroot}/usr/share/package-licenses/SuiteSparse/5a2314153eadadc69258a9429104cd11804ea304
-cp %{_builddir}/SuiteSparse-%{version}/GraphBLAS/CUDA/test/googlemock/scripts/generator/LICENSE %{buildroot}/usr/share/package-licenses/SuiteSparse/1d4719e04eaa4909ab5a59ef5cb04d2a5517716e
-cp %{_builddir}/SuiteSparse-%{version}/GraphBLAS/GraphBLAS/LICENSE %{buildroot}/usr/share/package-licenses/SuiteSparse/31a3d460bb3c7d98845187c716a30db81c44b615
-cp %{_builddir}/SuiteSparse-%{version}/GraphBLAS/LICENSE %{buildroot}/usr/share/package-licenses/SuiteSparse/9c9f9abe8d765ec1196b9c8c7a65bd4e2c9164e4
-cp %{_builddir}/SuiteSparse-%{version}/KLU/Doc/License.txt %{buildroot}/usr/share/package-licenses/SuiteSparse/cef232b1a01b764b52f77124b54b868095253ddd
-cp %{_builddir}/SuiteSparse-%{version}/LDL/Doc/License.txt %{buildroot}/usr/share/package-licenses/SuiteSparse/9422890a4ef75e4cbe85067fffb6fb256a306ba9
-cp %{_builddir}/SuiteSparse-%{version}/MATLAB_Tools/Doc/License.txt %{buildroot}/usr/share/package-licenses/SuiteSparse/826aa61f418305257925825e866cf05a9fad5fe6
-cp %{_builddir}/SuiteSparse-%{version}/Mongoose/Doc/License.txt %{buildroot}/usr/share/package-licenses/SuiteSparse/8624bcdae55baeef00cd11d5dfcfa60f68710a02
-cp %{_builddir}/SuiteSparse-%{version}/RBio/Doc/License.txt %{buildroot}/usr/share/package-licenses/SuiteSparse/8102b3aadcb879901e248d04be18843b71a894c3
-cp %{_builddir}/SuiteSparse-%{version}/RBio/Doc/gpl.txt %{buildroot}/usr/share/package-licenses/SuiteSparse/b47456e2c1f38c40346ff00db976a2badf36b5e3
-cp %{_builddir}/SuiteSparse-%{version}/SLIP_LU/License/GPLv2.txt %{buildroot}/usr/share/package-licenses/SuiteSparse/4cc77b90af91e615a64ae04893fdffa7939db84c
-cp %{_builddir}/SuiteSparse-%{version}/SPQR/Doc/License.txt %{buildroot}/usr/share/package-licenses/SuiteSparse/25d008cc9407fe74e848986127e114e3a5453c83
-cp %{_builddir}/SuiteSparse-%{version}/SPQR/Doc/gpl.txt %{buildroot}/usr/share/package-licenses/SuiteSparse/b47456e2c1f38c40346ff00db976a2badf36b5e3
-cp %{_builddir}/SuiteSparse-%{version}/SuiteSparse_GPURuntime/Doc/License.txt %{buildroot}/usr/share/package-licenses/SuiteSparse/0427e4024d4d35d256a2ead9bee1b5968a36c912
-cp %{_builddir}/SuiteSparse-%{version}/SuiteSparse_GPURuntime/Doc/gpl.txt %{buildroot}/usr/share/package-licenses/SuiteSparse/b47456e2c1f38c40346ff00db976a2badf36b5e3
-cp %{_builddir}/SuiteSparse-%{version}/UMFPACK/Doc/License.txt %{buildroot}/usr/share/package-licenses/SuiteSparse/a91968addad8b454bb714ff34b4adefb4bceab01
-cp %{_builddir}/SuiteSparse-%{version}/UMFPACK/Doc/gpl.txt %{buildroot}/usr/share/package-licenses/SuiteSparse/b47456e2c1f38c40346ff00db976a2badf36b5e3
-cp %{_builddir}/SuiteSparse-%{version}/metis-5.1.0/LICENSE.txt %{buildroot}/usr/share/package-licenses/SuiteSparse/a7c3a4f7dcf7a014c7dfdd3f8752d699eb7f7c2e
-cp %{_builddir}/SuiteSparse-%{version}/ssget/Doc/License.txt %{buildroot}/usr/share/package-licenses/SuiteSparse/c7f1e603ba9c4d9bfbfe9af7453ceaa7f33c582c
+cp %{_builddir}/SuiteSparse-%{version}/AMD/Doc/License.txt %{buildroot}/usr/share/package-licenses/SuiteSparse/3ab21591eed55f18245a4d40d77eb92056888701 || :
+cp %{_builddir}/SuiteSparse-%{version}/BTF/Doc/License.txt %{buildroot}/usr/share/package-licenses/SuiteSparse/b13f6d59d5b230774696d884785ec850e6d31bc2 || :
+cp %{_builddir}/SuiteSparse-%{version}/CAMD/Doc/License.txt %{buildroot}/usr/share/package-licenses/SuiteSparse/a62dec2a77f26f4925d49f03b155b3290cb7cfe1 || :
+cp %{_builddir}/SuiteSparse-%{version}/CCOLAMD/Doc/License.txt %{buildroot}/usr/share/package-licenses/SuiteSparse/de522c4d6fbb410a79215466e3449a4cb6bdd3ce || :
+cp %{_builddir}/SuiteSparse-%{version}/CHOLMOD/Demo/gpl.txt %{buildroot}/usr/share/package-licenses/SuiteSparse/b47456e2c1f38c40346ff00db976a2badf36b5e3 || :
+cp %{_builddir}/SuiteSparse-%{version}/CHOLMOD/MATLAB/gpl.txt %{buildroot}/usr/share/package-licenses/SuiteSparse/b47456e2c1f38c40346ff00db976a2badf36b5e3 || :
+cp %{_builddir}/SuiteSparse-%{version}/CHOLMOD/MatrixOps/gpl.txt %{buildroot}/usr/share/package-licenses/SuiteSparse/b47456e2c1f38c40346ff00db976a2badf36b5e3 || :
+cp %{_builddir}/SuiteSparse-%{version}/CHOLMOD/Modify/gpl.txt %{buildroot}/usr/share/package-licenses/SuiteSparse/b47456e2c1f38c40346ff00db976a2badf36b5e3 || :
+cp %{_builddir}/SuiteSparse-%{version}/CHOLMOD/Supernodal/gpl.txt %{buildroot}/usr/share/package-licenses/SuiteSparse/b47456e2c1f38c40346ff00db976a2badf36b5e3 || :
+cp %{_builddir}/SuiteSparse-%{version}/CHOLMOD/Tcov/gpl.txt %{buildroot}/usr/share/package-licenses/SuiteSparse/b47456e2c1f38c40346ff00db976a2badf36b5e3 || :
+cp %{_builddir}/SuiteSparse-%{version}/CHOLMOD/Valgrind/gpl.txt %{buildroot}/usr/share/package-licenses/SuiteSparse/b47456e2c1f38c40346ff00db976a2badf36b5e3 || :
+cp %{_builddir}/SuiteSparse-%{version}/COLAMD/Doc/License.txt %{buildroot}/usr/share/package-licenses/SuiteSparse/faa0661d302ed2af604ec96af361af9efcf81a63 || :
+cp %{_builddir}/SuiteSparse-%{version}/CSparse/Doc/License.txt %{buildroot}/usr/share/package-licenses/SuiteSparse/f8fdd046aa7b6df4eb00a0f5a84b0edd23c3b15a || :
+cp %{_builddir}/SuiteSparse-%{version}/CSparse/MATLAB/ssget/Doc/License.txt %{buildroot}/usr/share/package-licenses/SuiteSparse/c7f1e603ba9c4d9bfbfe9af7453ceaa7f33c582c || :
+cp %{_builddir}/SuiteSparse-%{version}/CXSparse/Doc/License.txt %{buildroot}/usr/share/package-licenses/SuiteSparse/21951afb2d8cb7f350c28dee727d2009d222301c || :
+cp %{_builddir}/SuiteSparse-%{version}/CXSparse/MATLAB/ssget/Doc/License.txt %{buildroot}/usr/share/package-licenses/SuiteSparse/c7f1e603ba9c4d9bfbfe9af7453ceaa7f33c582c || :
+cp %{_builddir}/SuiteSparse-%{version}/CXSparse_newfiles/Doc/License.txt %{buildroot}/usr/share/package-licenses/SuiteSparse/21951afb2d8cb7f350c28dee727d2009d222301c || :
+cp %{_builddir}/SuiteSparse-%{version}/GPUQREngine/Doc/License.txt %{buildroot}/usr/share/package-licenses/SuiteSparse/25bc1bfcf61590bd9e715d24eecedf5ec09760e4 || :
+cp %{_builddir}/SuiteSparse-%{version}/GPUQREngine/Doc/gpl.txt %{buildroot}/usr/share/package-licenses/SuiteSparse/b47456e2c1f38c40346ff00db976a2badf36b5e3 || :
+cp %{_builddir}/SuiteSparse-%{version}/GraphBLAS/CUDA/License.txt %{buildroot}/usr/share/package-licenses/SuiteSparse/b8ad93379e28ac7d7fd4f5179d77f5e353e7fb37 || :
+cp %{_builddir}/SuiteSparse-%{version}/GraphBLAS/CUDA/test/googlemock/LICENSE %{buildroot}/usr/share/package-licenses/SuiteSparse/5a2314153eadadc69258a9429104cd11804ea304 || :
+cp %{_builddir}/SuiteSparse-%{version}/GraphBLAS/CUDA/test/googlemock/scripts/generator/LICENSE %{buildroot}/usr/share/package-licenses/SuiteSparse/1d4719e04eaa4909ab5a59ef5cb04d2a5517716e || :
+cp %{_builddir}/SuiteSparse-%{version}/GraphBLAS/GraphBLAS/LICENSE %{buildroot}/usr/share/package-licenses/SuiteSparse/31a3d460bb3c7d98845187c716a30db81c44b615 || :
+cp %{_builddir}/SuiteSparse-%{version}/GraphBLAS/LICENSE %{buildroot}/usr/share/package-licenses/SuiteSparse/9c9f9abe8d765ec1196b9c8c7a65bd4e2c9164e4 || :
+cp %{_builddir}/SuiteSparse-%{version}/KLU/Doc/License.txt %{buildroot}/usr/share/package-licenses/SuiteSparse/cef232b1a01b764b52f77124b54b868095253ddd || :
+cp %{_builddir}/SuiteSparse-%{version}/LDL/Doc/License.txt %{buildroot}/usr/share/package-licenses/SuiteSparse/9422890a4ef75e4cbe85067fffb6fb256a306ba9 || :
+cp %{_builddir}/SuiteSparse-%{version}/MATLAB_Tools/Doc/License.txt %{buildroot}/usr/share/package-licenses/SuiteSparse/826aa61f418305257925825e866cf05a9fad5fe6 || :
+cp %{_builddir}/SuiteSparse-%{version}/Mongoose/Doc/License.txt %{buildroot}/usr/share/package-licenses/SuiteSparse/8624bcdae55baeef00cd11d5dfcfa60f68710a02 || :
+cp %{_builddir}/SuiteSparse-%{version}/RBio/Doc/License.txt %{buildroot}/usr/share/package-licenses/SuiteSparse/8102b3aadcb879901e248d04be18843b71a894c3 || :
+cp %{_builddir}/SuiteSparse-%{version}/RBio/Doc/gpl.txt %{buildroot}/usr/share/package-licenses/SuiteSparse/b47456e2c1f38c40346ff00db976a2badf36b5e3 || :
+cp %{_builddir}/SuiteSparse-%{version}/SLIP_LU/License/GPLv2.txt %{buildroot}/usr/share/package-licenses/SuiteSparse/4cc77b90af91e615a64ae04893fdffa7939db84c || :
+cp %{_builddir}/SuiteSparse-%{version}/SPQR/Doc/License.txt %{buildroot}/usr/share/package-licenses/SuiteSparse/25d008cc9407fe74e848986127e114e3a5453c83 || :
+cp %{_builddir}/SuiteSparse-%{version}/SPQR/Doc/gpl.txt %{buildroot}/usr/share/package-licenses/SuiteSparse/b47456e2c1f38c40346ff00db976a2badf36b5e3 || :
+cp %{_builddir}/SuiteSparse-%{version}/SuiteSparse_GPURuntime/Doc/License.txt %{buildroot}/usr/share/package-licenses/SuiteSparse/0427e4024d4d35d256a2ead9bee1b5968a36c912 || :
+cp %{_builddir}/SuiteSparse-%{version}/SuiteSparse_GPURuntime/Doc/gpl.txt %{buildroot}/usr/share/package-licenses/SuiteSparse/b47456e2c1f38c40346ff00db976a2badf36b5e3 || :
+cp %{_builddir}/SuiteSparse-%{version}/UMFPACK/Doc/License.txt %{buildroot}/usr/share/package-licenses/SuiteSparse/a91968addad8b454bb714ff34b4adefb4bceab01 || :
+cp %{_builddir}/SuiteSparse-%{version}/UMFPACK/Doc/gpl.txt %{buildroot}/usr/share/package-licenses/SuiteSparse/b47456e2c1f38c40346ff00db976a2badf36b5e3 || :
+cp %{_builddir}/SuiteSparse-%{version}/metis-5.1.0/LICENSE.txt %{buildroot}/usr/share/package-licenses/SuiteSparse/a7c3a4f7dcf7a014c7dfdd3f8752d699eb7f7c2e || :
+cp %{_builddir}/SuiteSparse-%{version}/ssget/Doc/License.txt %{buildroot}/usr/share/package-licenses/SuiteSparse/c7f1e603ba9c4d9bfbfe9af7453ceaa7f33c582c || :
 pushd ../buildavx2/
 %make_install_v3 BLAS=-lopenblas LAPACK=-lopenblas INSTALL=%{buildroot}/usr  INSTALL_LIB=%{buildroot}/usr/lib64 INSTALL_BIN=%{buildroot}/usr/bin MY_METIS_LIB=/usr/lib64/libmetis.so || :
 popd
