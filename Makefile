@@ -1,5 +1,5 @@
 PKG_NAME := SuiteSparse
-URL = https://github.com/DrTimothyAldenDavis/SuiteSparse/archive/v5.10.1/SuiteSparse-5.10.1.tar.gz
+URL = https://github.com/DrTimothyAldenDavis/SuiteSparse/archive/v6.0.3/SuiteSparse-6.0.3.tar.gz
 ARCHIVES = 
 
 include ../common/Makefile.common
